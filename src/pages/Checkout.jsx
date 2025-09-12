@@ -31,6 +31,7 @@ const Checkout = () => {
   const biayaLain = 10000;
   const total = subtotal + ongkosKirim + biayaLain;
 
+  // --- PERUBAHAN UTAMA DI FUNGSI INI ---
   const handlePlaceOrder = (e) => {
     e.preventDefault();
     if (cartItems.length === 0) {
@@ -39,15 +40,20 @@ const Checkout = () => {
         return;
     }
     const orderDetails = {
-      shippingInfo: formData, orderItems: cartItems, paymentMethod, totalPrice: total,
+      shippingInfo: formData,
+      orderItems: cartItems,
+      paymentMethod,
+      totalPrice: total,
     };
-    console.log('Order Details:', orderDetails);
-    alert('Pesanan berhasil dibuat! (Cek console untuk detail)');
+    
+    // Arahkan ke halaman pembayaran dengan membawa detail pesanan
+    navigate('/payment', { state: { orderDetails } });
   };
 
   return (
     <div className="checkout-container">
-      <div className="checkout-header">
+      {/* ... sisa JSX tidak berubah ... */}
+       <div className="checkout-header">
         <button onClick={() => navigate('/cart')} className="back-button">&#x2190;</button>
       </div>
 
@@ -93,7 +99,6 @@ const Checkout = () => {
               <input type="radio" id="mandiri" name="payment" value="mandiri" checked={paymentMethod === 'mandiri'} onChange={(e) => setPaymentMethod(e.target.value)} />
               <label htmlFor="mandiri">Virtual Account Mandiri</label>
             </div>
-            {/* --- TAMBAHAN: Opsi Pembayaran BRI --- */}
             <div className="payment-option">
               <input type="radio" id="bri" name="payment" value="bri" checked={paymentMethod === 'bri'} onChange={(e) => setPaymentMethod(e.target.value)} />
               <label htmlFor="bri">Virtual Account BRI</label>

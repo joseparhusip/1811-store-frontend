@@ -16,7 +16,8 @@ import ProductDetail from './pages/ProductDetail';
 import Cart from './pages/Cart';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
-import Checkout from './pages/Checkout'; // <-- TAMBAHKAN INI
+import Checkout from './pages/Checkout';
+import Payment from './pages/Payment'; // <-- 1. Impor halaman baru
 
 import './index.css';
 
@@ -39,7 +40,8 @@ const AppLayout = () => {
           <Route path="/cart" element={<Cart />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/checkout" element={<Checkout />} /> {/* <-- TAMBAHKAN INI */}
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/payment" element={<Payment />} /> {/* <-- 2. Tambahkan rute baru */}
         </Routes>
       </main>
       {showLayout && <Footer />}
