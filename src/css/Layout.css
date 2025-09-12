@@ -26,11 +26,11 @@ ul {
 .sticky-header-wrapper {
   position: sticky;
   top: 0;
-  left: 0; /* Tambahan untuk memastikan posisi horizontal */
-  width: 100%; /* Memastikan wrapper mengambil lebar penuh */
+  left: 0;
+  width: 100%;
   z-index: 1001;
-  background-color: #fff; /* Memberi background agar konten di bawahnya tidak tembus */
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Optional: Memberi sedikit bayangan */
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
 /* === NAVBAR TOP SECTION === */
@@ -83,7 +83,6 @@ ul {
 .navbar {
   width: 100%;
   padding: 15px 0;
-  /* background-color sudah di handle oleh wrapper */
   border-bottom: 1px solid #eee;
 }
 
@@ -178,14 +177,9 @@ ul {
   margin: 0 auto;
   padding: 0 5%;
   display: grid;
-  grid-template-columns: 2fr 2fr 1.5fr;
-  gap: 60px;
+  grid-template-columns: 1fr 1fr 1.5fr 1.5fr;
+  gap: 40px;
   margin-bottom: 50px;
-}
-
-.footer-links-group {
-  display: flex;
-  gap: 60px;
 }
 
 .footer-section h4 {
@@ -226,32 +220,13 @@ ul {
   font-weight: 500;
 }
 
-.footer-section.get-in-touch {
-  text-align: center;
-}
-
-.footer-section.get-in-touch h4 {
-  text-align: center;
-}
-
-.footer-section.get-in-touch p {
-  text-align: center;
-  max-width: 300px;
-  margin: 0 auto 15px auto;
-}
-
-.footer-section.newsletter {
-  text-align: center;
-}
-
-.footer-section.newsletter h4 {
-  text-align: center;
-}
-
-.footer-section.newsletter p {
-  text-align: center;
-  color: #ccc;
-  font-size: 0.9rem;
+/* Perataan default untuk desktop (rata kiri) */
+.footer-section,
+.footer-section h4,
+.footer-section p {
+  text-align: left;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .footer-bottom {
@@ -263,7 +238,7 @@ ul {
 .footer-socials {
   display: flex;
   justify-content: center;
-  align-items: center; /* Ensures vertical alignment */
+  align-items: center;
   gap: 20px;
   margin-bottom: 20px;
 }
@@ -275,11 +250,10 @@ ul {
   text-decoration: none;
 }
 
-/* --- NEW: Styling for the icon images --- */
 .social-icon img {
-  height: 24px;  /* Controls the height of the icons */
-  width: auto;   /* Maintains aspect ratio */
-  display: block; /* Removes any extra space below the image */
+  height: 24px;
+  width: auto;
+  display: block;
 }
 
 .social-icon:hover {
@@ -315,9 +289,8 @@ ul {
   .nav-menu {
     position: fixed;
     left: -100%;
-    /* Kalkulasi top berdasarkan tinggi sticky header */
-    top: 0; /* Kita akan atur ini dengan JS jika tinggi header dinamis, tapi untuk sekarang kita set ulang posisinya relatif ke viewport */
-    margin-top: 102px; /* Jarak dari atas sesuai tinggi header, ini perlu disesuaikan */
+    top: 0;
+    margin-top: 102px;
     flex-direction: column;
     background-color: #fff;
     width: 100%;
@@ -352,29 +325,23 @@ ul {
     flex-wrap: nowrap;
   }
 
-  /* Footer Responsive */
+  /* Footer Tablet */
   .footer {
     padding: 40px 0 20px 0;
   }
 
   .footer-container {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 40px;
     margin-bottom: 40px;
-    text-align: center;
   }
   
-  .footer-links-group {
-    justify-content: center;
-    gap: 80px;
-  }
-
   .footer-socials {
     gap: 15px;
   }
   
   .social-icon img {
-    height: 22px; /* Slightly smaller for mobile */
+    height: 22px;
   }
 }
 
@@ -398,38 +365,31 @@ ul {
   }
   
   .nav-menu {
-    /* Sesuaikan lagi jarak top jika tinggi header berubah di mobile */
-    margin-top: 95px; /* Sesuaikan nilainya */
-    max-height: calc(100vh - 95px); /* Sesuaikan nilainya */
+    margin-top: 95px;
+    max-height: calc(100vh - 95px);
   }
 
   /* Footer Mobile */
   .footer-container {
+    grid-template-columns: 1fr; /* Layout menjadi 1 kolom */
     gap: 30px;
-    text-align: center;
   }
   
-  .footer-links-group {
-    flex-direction: column;
-    align-items: center;
-    gap: 30px;
+  /* === INI PERBAIKANNYA === */
+  /* Memaksa semua teks di dalam .footer-section menjadi rata tengah HANYA di mobile */
+  .footer-section,
+  .footer-section h4,
+  .footer-section p {
+    text-align: center;
   }
-
-  .footer-section:first-child,
-  .footer-section:nth-child(2) {
-    padding-left: 0;
-  }
-
-  .footer-section.get-in-touch p {
-    max-width: 100%;
-  }
+  /* ======================== */
 
   .footer-socials {
     gap: 12px;
   }
   
   .social-icon img {
-    height: 20px; /* Even smaller for small screens */
+    height: 20px;
   }
 
   .copyright {
@@ -437,7 +397,7 @@ ul {
   }
 }
 
-/* --- CSS UNTUK IKON KERANJANG DI NAVBAR --- */
+/* --- CSS LAINNYA (TIDAK BERUBAH) --- */
 .cart-icon-wrapper {
   position: relative;
   text-decoration: none;
@@ -460,7 +420,6 @@ ul {
   font-weight: bold;
 }
 
-/* === CSS UNTUK DROPDOWN PROFIL (BARU) === */
 .profile-menu-container {
   position: relative;
   display: flex;
@@ -469,7 +428,7 @@ ul {
 
 .profile-dropdown {
   position: absolute;
-  top: calc(100% + 10px); /* Jarak 10px dari ikon */
+  top: calc(100% + 10px);
   right: 0;
   background-color: #fff;
   border: 1px solid #eee;
@@ -499,14 +458,9 @@ ul {
   border: none;
   background: none;
   cursor: pointer;
-  font-family: inherit; /* Pastikan font sama */
+  font-family: inherit;
 }
 
-/* ======================================================= */
-/* === STYLING BARU: FLOATING ACTION BUTTON MENU (FAB) === */
-/* ======================================================= */
-
-/* Kontainer utama untuk semua tombol melayang */
 .floating-action-container {
   position: fixed;
   bottom: 30px;
@@ -517,20 +471,19 @@ ul {
   align-items: center;
 }
 
-/* Tombol aksi utama (paling bawah, dengan ikon + atau x) */
 .floating-action-btn {
-  background-color: #8A2BE2; /* Warna ungu dari hero button */
+  background-color: #8A2BE2;
   color: white;
   border: none;
   width: 60px;
   height: 60px;
   border-radius: 50%;
   font-size: 2.5rem;
-  line-height: 60px; /* Untuk menengahkan ikon '+' secara vertikal */
+  line-height: 60px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   transition: transform 0.3s ease, background-color 0.3s ease;
-  z-index: 1001; /* Pastikan tombol ini di atas tombol opsi */
+  z-index: 1001;
   position: relative;
   display: flex;
   justify-content: center;
@@ -545,12 +498,10 @@ ul {
   transition: transform 0.3s ease;
 }
 
-/* Putar ikon '+' saat menu aktif */
 .floating-action-container.active .floating-action-btn .icon {
   transform: rotate(45deg);
 }
 
-/* Styling untuk tombol-tombol opsi (WA dan Share) */
 .floating-option {
   width: 50px;
   height: 50px;
@@ -563,24 +514,20 @@ ul {
   justify-content: center;
   align-items: center;
   transition: all 0.3s ease;
-
-  /* Sembunyikan dan posisikan di awal */
   opacity: 0;
   transform: translateY(20px) scale(0.5);
-  pointer-events: none; /* Tidak bisa diklik saat tersembunyi */
+  pointer-events: none;
 }
 
-/* Tampilkan tombol opsi saat kontainer memiliki class 'active' */
 .floating-action-container.active .floating-option {
   opacity: 1;
   transform: translateY(0) scale(1);
-  pointer-events: auto; /* Bisa diklik saat tampil */
+  pointer-events: auto;
 }
 
-/* Styling spesifik untuk tombol WhatsApp */
 .floating-option.whatsapp-btn {
   background-color: #25D366;
-  transition-delay: 0.1s; /* Animasi muncul sedikit lebih lambat */
+  transition-delay: 0.1s;
 }
 
 .floating-option.whatsapp-btn img {
@@ -588,15 +535,13 @@ ul {
   height: auto;
 }
 
-/* Styling spesifik untuk tombol Share */
 .floating-option.share-btn {
   background-color: #f0f0f0;
   color: #333;
   font-size: 1.5rem;
-  transition-delay: 0.2s; /* Animasi muncul paling akhir */
+  transition-delay: 0.2s;
 }
 
-/* Penyesuaian untuk layar mobile */
 @media (max-width: 768px) {
   .floating-action-container {
     bottom: 20px;

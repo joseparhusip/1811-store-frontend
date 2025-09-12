@@ -53,25 +53,26 @@ Lampiran gambar: `;
   return (
     <>
       <footer className="footer">
-        {/* Konten footer tidak berubah */}
         <div className="footer-container">
-          <div className="footer-links-group">
-            <div className="footer-section">
-              <h4>CATEGORIES</h4>
-              <ul>
-                <li><a href="#">Women</a></li>
-                <li><a href="#">Men</a></li>
-              </ul>
-            </div>
-            <div className="footer-section">
-              <h4>HELP</h4>
-              <ul>
-                <li><a href="#">Track Order</a></li>
-                <li><a href="#">Returns</a></li>
-                <li><a href="#">FAQs</a></li>
-              </ul>
-            </div>
+          {/* === PERUBAHAN: Menghilangkan div .footer-links-group === */}
+          {/* SEKARANG SETIAP .footer-section MENJADI ITEM GRID LANGSUNG */}
+          
+          <div className="footer-section">
+            <h4>CATEGORIES</h4>
+            <ul>
+              <li><a href="#">Women</a></li>
+              <li><a href="#">Men</a></li>
+            </ul>
           </div>
+          <div className="footer-section">
+            <h4>HELP</h4>
+            <ul>
+              <li><a href="#">Track Order</a></li>
+              <li><a href="#">Returns</a></li>
+              <li><a href="#">FAQs</a></li>
+            </ul>
+          </div>
+
           <div className="footer-section get-in-touch">
             <h4>GET IN TOUCH</h4>
             <p>Any questions? Let us know in store 1811, Jl. Sariasih No.54, Sarijadi, Kec. Sukasari, Kota Bandung, Jawa Barat 40151</p>
