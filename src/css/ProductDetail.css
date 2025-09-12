@@ -7,6 +7,9 @@
   padding: 20px;
   gap: 50px;
   font-family: Arial, sans-serif;
+  background-color: #fff; /* Tambahan agar kontras dengan background body */
+  border-radius: 8px; /* Tambahan agar lebih modern */
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05); /* Tambahan shadow halus */
 }
 
 .product-image-section {
@@ -20,7 +23,7 @@
   max-width: 100%;
   height: auto;
   border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  object-fit: cover; /* Memastikan gambar tidak gepeng */
 }
 
 .product-info-section {
@@ -31,12 +34,14 @@
 
 .product-title {
   font-size: 2.5rem;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 .product-price {
-  font-size: 1.8rem;
-  color: #333;
+  /* --- PERBAIKAN: Ukuran font dikecilkan dari 1.8rem/1.5rem menjadi 1.25rem --- */
+  font-size: 1.25rem;
+  font-weight: 600; /* Sedikit lebih tebal agar tetap terlihat jelas */
+  color: #555;
   margin-bottom: 25px;
 }
 
@@ -69,6 +74,7 @@
 .color-selector {
   display: flex;
   gap: 10px;
+  flex-wrap: wrap; /* Agar tombol turun ke bawah jika tidak muat */
 }
 
 .size-btn,
@@ -78,10 +84,11 @@
   background-color: #fff;
   cursor: pointer;
   border-radius: 5px;
-  font-size: 1rem;
+  font-size: 0.9rem; /* Sedikit dikecilkan agar rapi */
   transition: all 0.2s ease;
 }
 
+/* Style saat tombol aktif (dipilih) */
 .size-btn.active,
 .color-btn.active {
   background-color: #333;
@@ -89,19 +96,22 @@
   border-color: #333;
 }
 
-.size-btn:hover,
-.color-btn:hover {
+/* Style saat kursor mouse di atas tombol */
+.size-btn:hover:not(.active),
+.color-btn:hover:not(.active) {
   background-color: #f0f0f0;
+  border-color: #aaa;
 }
+
 
 .add-to-cart-button {
   width: 100%;
   padding: 15px;
-  background-color: #6a5af9; /* Warna biru keunguan seperti di gambar */
+  background-color: #1a1a1a; /* Warna hitam agar lebih elegan */
   color: white;
   border: none;
   border-radius: 5px;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: bold;
   cursor: pointer;
   text-transform: uppercase;
@@ -109,10 +119,36 @@
 }
 
 .add-to-cart-button:hover {
-  background-color: #5848d8;
+  background-color: #4d4d4d;
 }
 
 .product-not-found {
   text-align: center;
   padding: 50px;
+}
+
+
+/* --- PERBAIKAN: CSS RESPONSIVE UNTUK MOBILE --- */
+@media (max-width: 768px) {
+  .product-detail-container {
+    /* Mengubah layout menjadi vertikal (gambar di atas, info di bawah) */
+    flex-direction: column;
+    margin: 20px;
+    padding: 15px;
+    gap: 30px; /* Jarak antara gambar dan info */
+  }
+
+  .product-title {
+    /* Mengecilkan judul agar tidak terlalu besar di HP */
+    font-size: 1.8rem;
+  }
+
+  .product-price {
+    font-size: 1.1rem;
+  }
+
+  .add-to-cart-button {
+    font-size: 1rem;
+    padding: 12px;
+  }
 }

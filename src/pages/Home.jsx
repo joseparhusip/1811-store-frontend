@@ -1,33 +1,31 @@
 // src/pages/Home.jsx
 
 import React from 'react';
+// --- 1. Impor 'Link' untuk membuat navigasi ---
+import { Link } from 'react-router-dom';
 import '../css/Home.css';
 
-// --- Mengimpor gambar ---
+// --- Mengimpor gambar statis ---
 import imgShirtBlack from '../assets/img/img-shirt-black.png';
 import imgMenStyle from '../assets/img/img-men-style-1811.png';
 import imgWomenStyle from '../assets/img/img-women-style-1811.png';
 
-// Impor gambar produk
-import imgGoplay from '../assets/img/img-product/T-Shirt Goplay Outside.png';
-import imgGoodCode from '../assets/img/img-product/T-Shirt good code.png';
-import imgEvergreens from '../assets/img/img-product/T-Shirt Evergreens.png';
-import imgFriends from '../assets/img/img-product/T-Shirt Most of My Friends.png';
-import imgCat from '../assets/img/img-product/T-Shirt Tell Your Cat.png';
-import imgCoffee from '../assets/img/img-product/T-Shirt Coffee Saves Lives.png';
+// --- 2. Hapus data produk lokal dan impor dari sumber utama ---
+import { products } from '../data/products';
 
-// Data produk
-const products = [
-  { id: 1, name: 'T-Shirt Goplay Outside', price: 'Rp150.000', img: imgGoplay },
-  { id: 2, name: 'T-Shirt good code', price: 'Rp200.000', img: imgGoodCode },
-  { id: 3, name: 'T-Shirt Evergreens', price: 'Rp180.000', img: imgEvergreens },
-  { id: 4, name: 'T-Shirt Most of My Friends', price: 'Rp130.000', img: imgFriends },
-  { id: 5, name: 'T-Shirt Tell Your Cat', price: 'Rp200.000', img: imgCat },
-  { id: 6, name: 'T-Shirt Coffee Saves Lives', price: 'Rp180.000', img: imgCoffee },
-];
-
+// --- Fungsi untuk memformat harga ---
+const formatPrice = (price) => {
+  return new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR',
+    minimumFractionDigits: 0
+  }).format(price);
+};
 
 const Home = () => {
+  // Ambil 6 produk pertama untuk ditampilkan di beranda
+  const featuredProducts = products.slice(0, 6);
+
   return (
     <div className="home-container">
       {/* Bagian Hero */}
@@ -69,17 +67,22 @@ const Home = () => {
           <a href="#" className="filter-link">Men</a>
         </div>
         <div className="product-grid">
-          {products.map(product => (
-            <div key={product.id} className="product-card">
-              <img src={product.img} alt={product.name} className="product-image" />
-              <div className="product-info">
-                <div>
-                  <h3 className="product-name">{product.name}</h3>
-                  <p className="product-price">{product.price}</p>
+          {/* --- 3. Bungkus setiap kartu produk dengan <Link> --- */}
+          {featuredProducts.map(product => (
+            <Link to={`/product/${product.id}`} key={product.id} className="product-card-link">
+              <div className="product-card">
+                {/* --- 4. Gunakan 'product.image' sesuai data dari products.js --- */}
+                <img src={product.image} alt={product.name} className="product-image" />
+                <div className="product-info">
+                  <div>
+                    <h3 className="product-name">{product.name}</h3>
+                    {/* --- 5. Format harga agar sesuai --- */}
+                    <p className="product-price">{formatPrice(product.price)}</p>
+                  </div>
+                  <button className="add-to-cart-btn">🛒</button>
                 </div>
-                <button className="add-to-cart-btn">🛒</button>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
         <div className="load-more-container">
