@@ -351,12 +351,6 @@ ul {
   .nav-container {
     flex-wrap: nowrap;
   }
-  
-  /* .nav-menu:not(.active) {
-    display: none; 
-  } */
-  /* Baris ini sebaiknya dihapus agar transisi left bekerja dengan baik */
-
 
   /* Footer Responsive */
   .footer {
@@ -379,7 +373,6 @@ ul {
     gap: 15px;
   }
   
-  /* --- NEW: Responsive icon image size --- */
   .social-icon img {
     height: 22px; /* Slightly smaller for mobile */
   }
@@ -435,7 +428,6 @@ ul {
     gap: 12px;
   }
   
-  /* --- NEW: Responsive icon image size --- */
   .social-icon img {
     height: 20px; /* Even smaller for small screens */
   }
@@ -466,4 +458,46 @@ ul {
   align-items: center;
   font-size: 11px;
   font-weight: bold;
+}
+
+/* === CSS UNTUK DROPDOWN PROFIL (BARU) === */
+.profile-menu-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: calc(100% + 10px); /* Jarak 10px dari ikon */
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #eee;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border-radius: 4px;
+  z-index: 1002;
+  width: 160px;
+  overflow: hidden;
+}
+
+.profile-dropdown .dropdown-item {
+  display: block;
+  padding: 12px 15px;
+  font-size: 0.9rem;
+  color: #333;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+  width: 100%;
+  text-align: left;
+}
+
+.profile-dropdown .dropdown-item:hover {
+  background-color: #f5f5f5;
+}
+
+.profile-dropdown .logout-button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: inherit; /* Pastikan font sama */
 }

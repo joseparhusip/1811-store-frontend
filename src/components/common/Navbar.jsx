@@ -4,12 +4,25 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../../css/Layout.css';
 import logoImage from '../../assets/img/logo-1811-store.png';
+import { useAuth } from '../../context/AuthContext'; // 1. Impor useAuth
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false); // State untuk dropdown profil
+  const { user, logout } = useAuth(); // 2. Ambil status user dan fungsi logout
+
+  const handleLogout = () => {
+    logout();
+    setProfileMenuOpen(false); // Tutup dropdown setelah logout
+  };
+  
+  // Fungsi untuk menutup semua menu
+  const closeAllMenus = () => {
+    setMenuOpen(false);
+    setProfileMenuOpen(false);
+  };
 
   return (
-    // PERUBAHAN: Membungkus seluruh navbar dalam satu div untuk efek sticky
     <div className="sticky-header-wrapper">
       {/* Top Section */}
       <div className="navbar-top">
@@ -19,7 +32,12 @@ const Navbar = () => {
           </div>
           <div className="navbar-top-right">
             <span>Help & FAQs</span>
-            <span>My Account</span>
+            {/* 3. MODIFIKASI: Tampilkan email user jika sudah login, atau link My Account jika belum */}
+            {user ? (
+              <span>{user.email}</span>
+            ) : (
+              <span>My Account</span>
+            )}
             <span>EN</span>
           </div>
         </div>
@@ -28,29 +46,43 @@ const Navbar = () => {
       {/* Main Navbar */}
       <nav className="navbar">
         <div className="nav-container">
-          <Link to="/" className="nav-logo">
+          <Link to="/" className="nav-logo" onClick={closeAllMenus}>
             <img src={logoImage} alt="1811 Store Logo" className="logo-image" />
           </Link>
 
           <ul className={menuOpen ? 'nav-menu active' : 'nav-menu'}>
             <li className="nav-item">
-              <Link to="/" className="nav-link" onClick={() => setMenuOpen(false)}>Home</Link>
+              <Link to="/" className="nav-link" onClick={closeAllMenus}>Home</Link>
             </li>
             <li className="nav-item">
-              <Link to="/shop" className="nav-link" onClick={() => setMenuOpen(false)}>Shop</Link>
+              <Link to="/shop" className="nav-link" onClick={closeAllMenus}>Shop</Link>
             </li>
             <li className="nav-item">
-              <Link to="/about" className="nav-link" onClick={() => setMenuOpen(false)}>About</Link>
+              <Link to="/about" className="nav-link" onClick={closeAllMenus}>About</Link>
             </li>
             <li className="nav-item">
-              <Link to="/contact" className="nav-link" onClick={() => setMenuOpen(false)}>Contact</Link>
+              <Link to="/contact" className="nav-link" onClick={closeAllMenus}>Contact</Link>
             </li>
           </ul>
           
           <div className="nav-right-actions">
             <div className="nav-actions">
-              <Link to="/account" className="nav-icon">👤</Link>
-              <Link to="/cart" className="nav-icon">🛒</Link>
+              {/* 4. INTI PERUBAHAN: Logika untuk ikon profil */}
+              {user ? (
+                <div className="profile-menu-container">
+                  <span className="nav-icon" onClick={() => setProfileMenuOpen(!profileMenuOpen)}>👤</span>
+                  {profileMenuOpen && (
+                    <div className="profile-dropdown">
+                      {/* Ganti /profile dengan rute halaman edit profil Anda nanti */}
+                      <Link to="/profile" className="dropdown-item" onClick={closeAllMenus}>Edit Profile</Link>
+                      <button onClick={handleLogout} className="dropdown-item logout-button">Logout</button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Link to="/login" className="nav-icon" onClick={closeAllMenus}>👤</Link>
+              )}
+              <Link to="/cart" className="nav-icon" onClick={closeAllMenus}>🛒</Link>
             </div>
             
             <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
@@ -59,7 +91,6 @@ const Navbar = () => {
               <span className="bar"></span>
             </div>
           </div>
-
         </div>
       </nav>
     </div>

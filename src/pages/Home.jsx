@@ -1,6 +1,6 @@
 // src/pages/Home.jsx
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../css/Home.css';
 
@@ -25,16 +25,30 @@ const Home = () => {
   // --- State untuk filter dan produk yang ditampilkan ---
   const [activeFilter, setActiveFilter] = useState('all');
   const [displayedProducts, setDisplayedProducts] = useState(products.slice(0, 6));
+  const [showLoginSuccess, setShowLoginSuccess] = useState(false);
+
+  // --- useEffect untuk memeriksa status login dan menampilkan notifikasi ---
+  useEffect(() => {
+    const justLoggedIn = localStorage.getItem('justLoggedIn');
+    if (justLoggedIn === 'true') {
+      setShowLoginSuccess(true);
+      localStorage.removeItem('justLoggedIn');
+
+      const timer = setTimeout(() => {
+        setShowLoginSuccess(false);
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, []);
 
   // --- Fungsi untuk menangani klik pada filter ---
   const handleFilterChange = (filter) => {
     setActiveFilter(filter);
     
     if (filter === 'all') {
-      // Jika 'all', tampilkan 6 produk pertama
       setDisplayedProducts(products.slice(0, 6));
     } else {
-      // Filter produk berdasarkan kategori
       const filtered = products.filter(product => 
         product.category.toLowerCase() === filter.toLowerCase()
       );
@@ -45,16 +59,21 @@ const Home = () => {
   // --- Fungsi untuk Load More ---
   const handleLoadMore = () => {
     if (activeFilter === 'all') {
-      // Jika filter 'all', tambah 3 produk lagi
       const currentLength = displayedProducts.length;
       const nextProducts = products.slice(currentLength, currentLength + 3);
       setDisplayedProducts(prev => [...prev, ...nextProducts]);
     }
-    // Untuk filter kategori, semua sudah ditampilkan
   };
 
   return (
     <div className="home-container">
+      {/* Tampilkan notifikasi jika state true */}
+      {showLoginSuccess && (
+        <div className="login-success-notification">
+          🎉 Login Berhasil! Selamat Datang Kembali.
+        </div>
+      )}
+
       {/* Bagian Hero */}
       <header className="hero-section">
         <img src={imgShirtBlack} alt="New Arrivals T-Shirt" className="hero-image" />
