@@ -1,0 +1,116 @@
+/* src/css/Shop.css */
+
+/* Styling untuk container utama halaman shop */
+.shop-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px; /* Disesuaikan dengan Home.css */
+}
+
+/* Styling untuk header (filter dan tombol design) */
+.shop-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px; /* Disesuaikan dengan Home.css */
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px; /* Disesuaikan dengan Home.css */
+}
+
+.shop-filters {
+  display: flex;
+  gap: 25px; /* Disesuaikan dengan Home.css */
+}
+
+.filter-link {
+  text-decoration: none;
+  font-weight: 500;
+  color: #888; /* Disesuaikan dengan Home.css */
+  transition: all 0.3s ease;
+}
+
+.filter-link:hover {
+  color: #000;
+}
+
+.filter-link.active {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.design-button {
+  background-color: #8A2BE2;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.design-button:hover {
+  background-color: #7B1FA2;
+}
+
+/* Styling untuk grid produk */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+
+/* --- STYLE KARTU PRODUK DIAMBIL DARI HOME.CSS --- */
+/* Semua style di bawah ini disalin/disesuaikan dari Home.css untuk konsistensi */
+
+.product-card {
+  text-align: left;
+  position: relative;
+  /* Menghapus style border, box-shadow, dll dari Shop.css lama */
+}
+
+.product-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  background-color: #f4f4f4; /* Style dari Home.css */
+}
+
+.product-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.product-name {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #333; /* Warna disamakan */
+  margin: 0; /* Margin direset */
+}
+
+.product-price {
+  font-size: 1rem;
+  color: #555;
+  margin-top: 5px;
+}
+
+.add-to-cart-btn {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.add-to-cart-btn:hover {
+  transform: scale(1.1);
+  background-color: #f0f0f0;
+}

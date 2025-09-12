@@ -1,0 +1,151 @@
+/* src/css/Contact.css */
+
+.contact-page {
+  width: 100%;
+}
+
+/* Styling untuk Header Banner */
+.contact-header-banner {
+  height: 40vh;
+  min-height: 300px;
+  background-size: cover;
+  background-position: center 30%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.contact-header-banner::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Lapisan gelap dikurangi agar gambar lebih jelas */
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* Wrapper Utama untuk Konten */
+.contact-main-content {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 30px;
+  max-width: 1200px;
+  /* --- PERUBAHAN UTAMA DI SINI --- */
+  /* Margin negatif diubah menjadi margin positif agar posisi di bawah banner */
+  margin: 50px auto; 
+  padding: 0 20px;
+  position: relative;
+  /* z-index tidak lagi diperlukan karena tidak tumpang tindih */
+}
+
+/* Styling Kotak Konten (Box) */
+.contact-box {
+  background-color: #f8f8f8;
+  padding: 40px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+}
+
+/* Styling Form di Kolom Kiri */
+.form-box h2 {
+  font-size: 1.8rem;
+  margin-bottom: 30px;
+  font-weight: 600;
+  color: #333;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 25px;
+}
+
+.input-group .icon {
+  font-size: 1.2rem;
+  margin-right: 15px;
+  color: #888;
+}
+
+.input-group input,
+.input-group textarea {
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 15px 0;
+  font-size: 1rem;
+  color: #333;
+}
+
+.input-group input:focus,
+.input-group textarea:focus {
+  outline: none;
+}
+
+.input-group textarea {
+  resize: vertical;
+  align-self: flex-start;
+  padding-top: 15px;
+}
+.input-group:last-of-type {
+  margin-bottom: 30px;
+}
+
+.submit-btn {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  padding: 15px;
+  width: 100%;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.submit-btn:hover {
+  opacity: 0.8;
+}
+
+/* Styling Info di Kolom Kanan */
+.info-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 30px;
+}
+.info-item:last-child {
+  margin-bottom: 0;
+}
+
+.info-item .icon {
+  font-size: 1.5rem;
+  margin-right: 20px;
+  margin-top: 5px;
+  color: #333;
+}
+
+.info-text h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0 0 5px 0;
+  color: #333;
+}
+
+.info-text p {
+  margin: 0;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* Responsiveness */
+@media (max-width: 900px) {
+  .contact-main-content {
+    grid-template-columns: 1fr;
+    margin-top: 40px;
+  }
+}
