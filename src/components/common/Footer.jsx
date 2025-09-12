@@ -3,6 +3,12 @@
 import React from 'react';
 import '../../css/Layout.css';
 
+// Import your social media icons
+import tiktokIcon from '../../assets/icons/tiktok.png';
+import instagramIcon from '../../assets/icons/instagram.png';
+import facebookIcon from '../../assets/icons/facebook.png';
+import whatsappIcon from '../../assets/icons/whatsapp.png';
+
 const Footer = () => {
   return (
     <footer className="footer">
@@ -42,10 +48,19 @@ const Footer = () => {
       
       <div className="footer-bottom">
         <div className="footer-socials">
-          <a href="#" className="social-icon">🎵</a> {/* TikTok */}
-          <a href="#" className="social-icon">📷</a> {/* Instagram */}
-          <a href="#" className="social-icon">📘</a> {/* Facebook */}
-          <a href="#" className="social-icon">💬</a> {/* WhatsApp */}
+          {/* --- UPDATED SOCIAL ICONS --- */}
+          <a href="#" className="social-icon" target="_blank" rel="noopener noreferrer">
+            <img src={tiktokIcon} alt="TikTok" />
+          </a>
+          <a href="https://www.instagram.com/1811.studio?igsh=MWFqd3B3amVzMW8xcA==" className="social-icon" target="_blank" rel="noopener noreferrer">
+            <img src={instagramIcon} alt="Instagram" />
+          </a>
+          <a href="#" className="social-icon" target="_blank" rel="noopener noreferrer">
+            <img src={facebookIcon} alt="Facebook" />
+          </a>
+          <a href="https://wa.me/6282213859516" className="social-icon" target="_blank" rel="noopener noreferrer">
+            <img src={whatsappIcon} alt="WhatsApp" />
+          </a>
         </div>
         <p className="copyright">Copyright © 1811 2025 All rights reserved</p>
       </div>
