@@ -30,7 +30,6 @@
 /* Wrapper Utama untuk Konten */
 .contact-main-content {
   display: grid;
-  /* Tampilan Desktop: 2 kolom */
   grid-template-columns: 1.5fr 1fr;
   gap: 30px;
   max-width: 1200px;
@@ -143,45 +142,59 @@
 /* --- PERBAIKAN RESPONSIVE UNTUK TAMPILAN HAPE --- */
 /* ------------------------------------------------ */
 
-/* Aturan ini berlaku untuk layar dengan lebar 768px atau kurang */
 @media (max-width: 768px) {
-  
-  /* 1. Ubah layout utama menjadi 1 kolom */
   .contact-main-content {
-    grid-template-columns: 1fr; /* Kolom jadi vertikal */
-    margin: 30px auto; /* Kurangi margin atas bawah */
-    gap: 20px; /* Kurangi jarak antar box */
-    padding: 0 15px; /* Sedikit kurangi padding samping */
+    grid-template-columns: 1fr;
+    margin: 30px auto;
+    gap: 20px;
+    padding: 0 15px;
   }
-
-  /* 2. Kurangi tinggi banner agar konten cepat terlihat */
   .contact-header-banner {
     height: 30vh;
     min-height: 200px;
   }
-  
-  /* 3. Kurangi padding di dalam box */
   .contact-box {
     padding: 25px;
   }
-  
-  /* 4. Optimalkan ukuran font judul form */
   .form-box h2 {
     font-size: 1.6rem;
     margin-bottom: 25px;
   }
-  
-  /* 5. Optimalkan info box */
   .info-item {
     margin-bottom: 25px;
   }
-  
   .info-item .icon {
     font-size: 1.3rem;
     margin-right: 15px;
   }
-  
   .info-text h3 {
     font-size: 1.1rem;
   }
+}
+
+/* ----------------------------------------- */
+/* --- STYLING BARU UNTUK PESAN TERIMA KASIH --- */
+/* ----------------------------------------- */
+
+.thank-you-message {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* Memastikan konten berada di tengah box */
+  min-height: 250px; /* Memberi tinggi minimum agar tidak aneh */
+}
+
+.thank-you-message h2 {
+  font-size: 2rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.thank-you-message p {
+  font-size: 1.1rem;
+  color: #666;
+  line-height: 1.6;
+  max-width: 400px;
 }

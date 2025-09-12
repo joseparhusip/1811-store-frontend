@@ -3,7 +3,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { CartProvider } from './context/CartContext';
-import { AuthProvider } from './context/AuthContext.jsx'; 
+import { AuthProvider } from './context/AuthContext.jsx';
 
 // Impor Komponen & Halaman
 import Navbar from './components/common/Navbar';
@@ -16,10 +16,11 @@ import ProductDetail from './pages/ProductDetail';
 import Cart from './pages/Cart';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
+import Checkout from './pages/Checkout'; // <-- TAMBAHKAN INI
 
 import './index.css';
 
-// Komponen helper untuk menentukan layout (TIDAK ADA PERUBAHAN DI SINI)
+// Komponen helper untuk menentukan layout
 const AppLayout = () => {
   const location = useLocation();
   const noLayoutPages = ['/login', '/signup'];
@@ -38,6 +39,7 @@ const AppLayout = () => {
           <Route path="/cart" element={<Cart />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/checkout" element={<Checkout />} /> {/* <-- TAMBAHKAN INI */}
         </Routes>
       </main>
       {showLayout && <Footer />}
@@ -45,12 +47,9 @@ const AppLayout = () => {
   );
 };
 
-// BAGIAN YANG DIPERBAIKI ADA DI SINI
 function App() {
   return (
-    // 1. Pindahkan <Router> menjadi pembungkus paling luar
     <Router>
-      {/* 2. Letakkan Provider di DALAM <Router> */}
       <AuthProvider>
         <CartProvider>
           <AppLayout />

@@ -187,57 +187,73 @@
   .cart-header {
     display: grid; /* Tampilkan header di desktop */
     grid-template-columns: 2fr 1fr 1fr 1fr;
+    grid-template-areas: "product size quantity total"; /* Memberi nama pada kolom */
     padding-bottom: 10px;
     text-transform: uppercase;
     color: #333;
     font-weight: bold;
   }
-
+  .header-product { grid-area: product; }
+  .header-size { grid-area: size; text-align: center; }
+  .header-quantity { grid-area: quantity; text-align: center; }
+  .header-total { grid-area: total; text-align: right; }
+  
   .cart-item {
     display: grid; /* Gunakan grid untuk layout desktop */
-    grid-template-columns: 2fr 1fr 1fr 1fr;
+    grid-template-columns: 80px 1fr 1fr 1fr 1fr; /* 5 kolom: gambar, nama, size, qty, total */
+    grid-template-areas: "image details size quantity total";
     align-items: center;
     gap: 20px;
   }
 
-  /* Sembunyikan dan atur ulang elemen untuk desktop */
-  .item-product-image {
-    grid-column: 1;
-  }
+  /* --- PERUBAHAN UTAMA DIMULAI DI SINI --- */
   
+  /* 1. Wrapper tidak lagi mengatur layout, hanya sebagai pembungkus di HTML */
   .item-info-wrapper {
-    grid-column: 2 / 5; /* Info wrapper mencakup 3 kolom */
-    display: contents; /* Penting: membuat wrapper "tidak terlihat" oleh grid */
+    display: contents; /* Ini "meleburkan" wrapper, membuat anak-anaknya menjadi item grid langsung */
+  }
+
+  /* 2. Begitu juga dengan wrapper untuk size dan quantity */
+  .item-meta-row {
+    display: contents; /* Ini juga dileburkan */
+  }
+
+  /* 3. Atur posisi setiap elemen pada grid yang sudah ditentukan */
+  .item-product-image {
+    grid-area: image; /* Masuk ke area 'image' */
   }
 
   .item-details {
-    grid-column: 1; /* Kembali ke kolom 1 bersama gambar */
-    padding-left: 95px; /* Beri ruang untuk gambar */
-    margin-top: -30px; /* Trik agar nama produk naik ke bawah gambar */
+    grid-area: details; /* Masuk ke area 'details' */
+    display: flex; /* Atur ulang flex direction agar tombol remove di bawah nama */
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
   }
   
-  .item-size { grid-column: 2; justify-content: center; }
-  .item-quantity { grid-column: 3; justify-content: center; }
-  .item-total { grid-column: 4; justify-content: flex-end; }
+  .item-size { 
+    grid-area: size; /* Masuk ke area 'size' */
+    justify-content: center; /* Posisikan di tengah */
+  }
+
+  .item-quantity { 
+    grid-area: quantity; /* Masuk ke area 'quantity' */
+    justify-content: center; /* Posisikan di tengah */
+  }
   
-  /* Sembunyikan label mobile di desktop */
+  .item-total { 
+    grid-area: total; /* Masuk ke area 'total' */
+    justify-content: flex-end; /* Posisikan di kanan */
+  }
+  
+  /* 4. Sembunyikan label mobile yang tidak diperlukan di desktop */
   .mobile-label {
     display: none;
   }
 
-  .item-meta-row, .item-details .remove-btn {
-    display: none; /* Sembunyikan elemen-elemen ini di desktop karena sudah diatur oleh grid */
-  }
-
-  /* Aturan ulang agar elemen yang benar muncul di desktop */
-  .cart-item > .item-product-image { display: contents; }
-  .cart-item > .item-product-image img { grid-column: 1; grid-row: 1; }
-  .cart-item > .item-info-wrapper > .item-details { grid-column: 1; grid-row: 1; padding-left: 95px; align-self: center;}
-  .cart-item > .item-info-wrapper > .item-meta-row > .item-size { grid-column: 2; grid-row: 1; }
-  .cart-item > .item-info-wrapper > .item-meta-row > .item-quantity { grid-column: 3; grid-row: 1; }
-  .cart-item > .item-info-wrapper > .item-total { grid-column: 4; grid-row: 1; }
-  .cart-item > .item-info-wrapper > .item-meta-row > .item-size, 
-  .cart-item > .item-info-wrapper > .item-meta-row > .item-quantity {
-      justify-content: center;
+  /* 5. Pastikan tombol remove terlihat dan berfungsi */
+  .remove-btn {
+    display: block; /* Pastikan tombol ini terlihat */
+    margin-top: 5px; /* Beri sedikit jarak dari nama produk */
   }
 }

@@ -1,0 +1,79 @@
+/* src/css/Checkout.css */
+
+.checkout-container {
+  max-width: 1200px; margin: 2rem auto; padding: 0 2rem; font-family: Arial, sans-serif;
+}
+.checkout-header { margin-bottom: 2rem; }
+.back-button {
+  background: none; border: 1px solid #ccc; border-radius: 50%; width: 40px; height: 40px;
+  font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: background-color 0.2s;
+}
+.back-button:hover { background-color: #f0f0f0; }
+.checkout-content { display: flex; gap: 3rem; align-items: flex-start; }
+.shipping-details { flex: 1.5; }
+.shipping-details h3, .order-summary h3 {
+  font-size: 1.2rem; margin-bottom: 1.5rem; font-weight: 500; letter-spacing: 1px;
+}
+.shipping-details input, .shipping-details textarea {
+  width: 100%; padding: 12px; margin-bottom: 1rem; border: 1px solid #ddd;
+  background-color: #f5f5f5; border-radius: 4px; font-size: 1rem;
+}
+/* Penyesuaian kecil agar input di dalam box tidak terlalu abu-abu */
+.shipping-details input, .shipping-details textarea {
+    background-color: #fff;
+}
+.shipping-details textarea { min-height: 120px; resize: vertical; }
+.order-summary {
+  flex: 1; background-color: #f9f9f9; padding: 2rem; border-radius: 8px; border: 1px solid #e0e0e0;
+}
+.summary-product {
+  display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem; border-bottom: 1px solid #e0e0e0;
+}
+.summary-product:last-of-type { border-bottom: none; }
+.summary-product .product-image { width: 60px; height: auto; border-radius: 4px; }
+.summary-product .product-info { flex-grow: 1; }
+.summary-product .product-info p { margin: 0; font-weight: bold; }
+.summary-product .product-info span { font-size: 0.9rem; color: #666; }
+.price-details { margin: 2rem 0; border-top: 1px solid #e0e0e0; padding-top: 1.5rem; }
+.price-row { display: flex; justify-content: space-between; margin-bottom: 0.8rem; font-size: 1rem; }
+.price-row.total {
+  font-weight: bold; font-size: 1.1rem; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #ccc;
+}
+.payment-method h4 { font-size: 1.1rem; margin-bottom: 1rem; }
+.payment-option { display: flex; align-items: center; margin-bottom: 0.7rem; }
+.payment-option input[type="radio"] { margin-right: 10px; }
+.place-order-btn {
+  width: 100%; padding: 15px; background-color: #000; color: #fff; border: none;
+  font-size: 1rem; font-weight: bold; cursor: pointer; margin-top: 2rem;
+  transition: background-color 0.3s;
+}
+.place-order-btn:hover { background-color: #333; }
+
+/* --- Media Query untuk Responsif --- */
+@media (max-width: 900px) {
+  .checkout-container {
+    /* Mengurangi padding di container utama agar box tidak terlalu mepet */
+    padding: 0 1rem;
+  }
+  .checkout-content { 
+    flex-direction: column; 
+    gap: 1.5rem; /* Sedikit mengurangi jarak antar box */
+  }
+
+  .order-summary {
+    order: 1; /* Tampilkan ringkasan ini terlebih dahulu */
+  }
+
+  .shipping-details {
+    order: 2; /* Tampilkan formulir ini setelah ringkasan */
+
+    /* --- PERUBAHAN UTAMA DI SINI --- */
+    /* Menyamakan styling formulir dengan kotak ringkasan di mobile */
+    background-color: #f9f9f9;
+    padding: 2rem;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+  }
+}

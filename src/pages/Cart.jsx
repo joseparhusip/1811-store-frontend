@@ -1,10 +1,18 @@
+// src/pages/Cart.jsx
+
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // 1. Impor useNavigate
 import { useCart } from '../context/CartContext';
 import '../css/Cart.css';
 
 const Cart = () => {
   const { cartItems, updateQuantity, removeFromCart } = useCart();
+  const navigate = useNavigate(); // 2. Inisialisasi hook navigasi
+
+  // 3. Buat fungsi untuk menangani checkout
+  const handleCheckout = () => {
+    navigate('/checkout');
+  };
 
   const formatPrice = (price) => {
     return new Intl.NumberFormat('id-ID', {
@@ -34,7 +42,6 @@ const Cart = () => {
   return (
     <div className="cart-page-container">
       <div className="cart-items-list">
-        {/* Header ini hanya akan tampil di desktop berkat CSS */}
         <div className="cart-header">
           <h4 className="header-product">PRODUCT</h4>
           <h4 className="header-size">SIZE</h4>
@@ -44,15 +51,9 @@ const Cart = () => {
 
         {cartItems.map((item) => (
           <div className="cart-item" key={`${item.id}-${item.size}-${item.color}`}>
-            
-            {/* --- PERUBAHAN UTAMA DIMULAI DI SINI --- */}
-
-            {/* Kolom 1: Gambar Produk */}
             <div className="item-product-image">
               <img src={item.image} alt={item.name} />
             </div>
-
-            {/* Kolom 2: Semua Informasi Produk Dibungkus Jadi Satu */}
             <div className="item-info-wrapper">
               <div className="item-details">
                 <p className="item-name">{item.name}</p>
@@ -60,8 +61,6 @@ const Cart = () => {
                   Remove
                 </button>
               </div>
-
-              {/* Baris yang berisi Ukuran dan Kuantitas */}
               <div className="item-meta-row">
                 <div className="item-size">
                   <span className="mobile-label">Size</span>
@@ -76,14 +75,11 @@ const Cart = () => {
                   </div>
                 </div>
               </div>
-
               <div className="item-total">
                 <span className="mobile-label">Total</span>
                 <span>{formatPrice(item.price * item.quantity)}</span>
               </div>
             </div>
-            {/* --- AKHIR PERUBAHAN --- */}
-
           </div>
         ))}
       </div>
@@ -98,7 +94,10 @@ const Cart = () => {
           <span>Total</span>
           <span>{formatPrice(subtotal)}</span>
         </div>
-        <button className="checkout-btn">CHECKOUT</button>
+        {/* 4. Tambahkan onClick ke tombol checkout */}
+        <button className="checkout-btn" onClick={handleCheckout}>
+          CHECKOUT
+        </button>
       </div>
     </div>
   );
