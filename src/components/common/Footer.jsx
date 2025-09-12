@@ -14,6 +14,7 @@ const Footer = () => {
             <li><a href="#">Men</a></li>
           </ul>
         </div>
+        
         <div className="footer-section">
           <h4>HELP</h4>
           <ul>
@@ -22,12 +23,14 @@ const Footer = () => {
             <li><a href="#">FAQs</a></li>
           </ul>
         </div>
-        <div className="footer-section">
+        
+        <div className="footer-section get-in-touch">
           <h4>GET IN TOUCH</h4>
           <p>Any questions? Let us know in store 1811, Jl. Sariasih No.54, Sarijadi, Kec. Sukasari, Kota Bandung, Jawa Barat 40151</p>
           <p className="phone">Call us on<br />+6282213859516</p>
         </div>
-        <div className="footer-section">
+        
+        <div className="footer-section newsletter">
           <h4>NEWSLETTER</h4>
           <p>1811studioproduction@gmail.com</p>
         </div>

@@ -18,7 +18,6 @@
   text-align: center;
 }
 
-/* Lapisan gelap tetap ada untuk estetika, meski teks sudah dihapus */
 .about-header::after {
   content: '';
   position: absolute;
@@ -36,30 +35,50 @@
   padding: 0 20px;
 }
 
+/* --- Pengaturan Layout Desktop (MENGGUNAKAN CSS GRID) --- */
 .about-section {
-  display: flex;
-  /* PERUBAHAN UTAMA: Mengubah 'center' menjadi 'flex-start' agar sejajar dari atas */
-  align-items: flex-start; 
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
   gap: 50px;
   margin-bottom: 70px;
+  align-items: flex-start;
 }
 
-/* Layout terbalik untuk seksi kedua */
 .about-section.reverse {
-  flex-direction: row-reverse;
+  grid-template-columns: 1fr 1.5fr;
 }
 
-.text-content {
-  flex: 1.5;
-}
-
-.text-content h2 {
+.section-title {
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
   font-size: 2.5rem;
   margin-bottom: 25px;
   font-weight: 700;
   color: #222;
 }
 
+.text-content {
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+  padding-top: 70px;
+}
+
+.image-content {
+  grid-column: 2 / 3;
+  grid-row: 1 / 2;
+}
+
+/* Menyesuaikan posisi untuk layout REVERSE di DESKTOP */
+.about-section.reverse .section-title,
+.about-section.reverse .text-content {
+  grid-column: 2 / 3;
+}
+
+.about-section.reverse .image-content {
+  grid-column: 1 / 2;
+}
+
+/* Styling untuk teks dan gambar (tetap sama) */
 .text-content p, .text-content li {
   font-size: 1.1rem;
   line-height: 1.8;
@@ -69,13 +88,9 @@
 
 .text-content ul {
   list-style-position: inside;
-  padding-left: 10px; /* Sedikit padding agar list lebih rapi */
-  margin-top: -10px; /* Mengurangi jarak dengan "We aim to:" */
+  padding-left: 10px;
+  margin-top: -10px;
   margin-bottom: 15px;
-}
-
-.image-content {
-  flex: 1;
 }
 
 .story-image {
@@ -87,11 +102,44 @@
 
 /* --- Media Query untuk Tablet dan Mobile --- */
 @media (max-width: 768px) {
-  .about-section, .about-section.reverse {
+  .about-content {
+    padding: 0 25px;
+  }
+  
+  /* PERBAIKAN UTAMA: Reset grid layout untuk mobile */
+  .about-section, 
+  .about-section.reverse {
+    display: flex;
     flex-direction: column;
+    gap: 25px;
+    grid-template-columns: none;
   }
 
-  .text-content h2 {
+  /* Reset semua grid positioning untuk mobile */
+  .about-section .section-title,
+  .about-section .image-content,
+  .about-section .text-content,
+  .about-section.reverse .section-title,
+  .about-section.reverse .image-content,
+  .about-section.reverse .text-content {
+    grid-column: unset;
+    grid-row: unset;
+  }
+
+  /* Atur urutan elemen untuk mobile */
+  .section-title {
+    order: 1;
+    text-align: center;
     font-size: 2rem;
+    margin-bottom: 20px;
+  }
+
+  .image-content {
+    order: 2;
+  }
+
+  .text-content {
+    order: 3;
+    padding-top: 0;
   }
 }
