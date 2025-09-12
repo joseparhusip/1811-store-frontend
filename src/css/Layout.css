@@ -501,3 +501,119 @@ ul {
   cursor: pointer;
   font-family: inherit; /* Pastikan font sama */
 }
+
+/* ======================================================= */
+/* === STYLING BARU: FLOATING ACTION BUTTON MENU (FAB) === */
+/* ======================================================= */
+
+/* Kontainer utama untuk semua tombol melayang */
+.floating-action-container {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Tombol aksi utama (paling bawah, dengan ikon + atau x) */
+.floating-action-btn {
+  background-color: #8A2BE2; /* Warna ungu dari hero button */
+  color: white;
+  border: none;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  font-size: 2.5rem;
+  line-height: 60px; /* Untuk menengahkan ikon '+' secara vertikal */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  z-index: 1001; /* Pastikan tombol ini di atas tombol opsi */
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.floating-action-btn:hover {
+  transform: scale(1.1);
+}
+
+.floating-action-btn .icon {
+  transition: transform 0.3s ease;
+}
+
+/* Putar ikon '+' saat menu aktif */
+.floating-action-container.active .floating-action-btn .icon {
+  transform: rotate(45deg);
+}
+
+/* Styling untuk tombol-tombol opsi (WA dan Share) */
+.floating-option {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+
+  /* Sembunyikan dan posisikan di awal */
+  opacity: 0;
+  transform: translateY(20px) scale(0.5);
+  pointer-events: none; /* Tidak bisa diklik saat tersembunyi */
+}
+
+/* Tampilkan tombol opsi saat kontainer memiliki class 'active' */
+.floating-action-container.active .floating-option {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto; /* Bisa diklik saat tampil */
+}
+
+/* Styling spesifik untuk tombol WhatsApp */
+.floating-option.whatsapp-btn {
+  background-color: #25D366;
+  transition-delay: 0.1s; /* Animasi muncul sedikit lebih lambat */
+}
+
+.floating-option.whatsapp-btn img {
+  width: 28px;
+  height: auto;
+}
+
+/* Styling spesifik untuk tombol Share */
+.floating-option.share-btn {
+  background-color: #f0f0f0;
+  color: #333;
+  font-size: 1.5rem;
+  transition-delay: 0.2s; /* Animasi muncul paling akhir */
+}
+
+/* Penyesuaian untuk layar mobile */
+@media (max-width: 768px) {
+  .floating-action-container {
+    bottom: 20px;
+    right: 20px;
+  }
+  .floating-action-btn {
+    width: 55px;
+    height: 55px;
+  }
+  .floating-option {
+    width: 45px;
+    height: 45px;
+  }
+  .floating-option.whatsapp-btn img {
+    width: 24px;
+  }
+  .floating-option.share-btn {
+    font-size: 1.3rem;
+  }
+}

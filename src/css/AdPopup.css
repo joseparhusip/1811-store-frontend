@@ -1,0 +1,92 @@
+/* src/css/AdPopup.css */
+
+/* Lapisan latar belakang gelap */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease-out;
+  z-index: 9999;
+  padding: 20px;
+}
+
+/* === PERBAIKAN UTAMA DI SINI === */
+.popup-content {
+  position: relative;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px meditative rgba(0, 0, 0, 0.2);
+  animation: zoomIn 0.3s ease-out;
+  
+  /* 1. Padding dihapus agar tidak ada spasi putih */
+  padding: 0;
+  
+  /* 2. Overflow hidden untuk memotong gambar sesuai bentuk card */
+  overflow: hidden;
+  
+  /* 3. Posisi diturunkan dari tengah */
+  margin-top: 5vh; /* Anda bisa ubah nilai 5vh untuk menaikkan/menurunkan */
+
+  max-width: 420px;
+  width: 90vw;
+}
+
+/* Gambar iklan kini mengisi penuh card */
+.popup-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  /* border-radius dihapus dari gambar, karena sudah diatur oleh .popup-content */
+}
+
+/* Tombol 'X' dipindahkan ke dalam pojok kanan atas gambar */
+.popup-close-btn {
+  position: absolute;
+  /* 4. Posisi di dalam kanan atas */
+  top: 15px;
+  right: 15px;
+
+  /* Style diubah agar terlihat bagus di atas gambar */
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 1;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.popup-close-btn:hover {
+  transform: scale(1.1);
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Animasi */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes zoomIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Mencegah scroll body */
+body.modal-open {
+  overflow: hidden;
+}

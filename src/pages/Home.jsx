@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../css/Home.css';
+import AdPopup from '../components/common/AdPopup';
 
 // --- Mengimpor gambar statis ---
 import imgShirtBlack from '../assets/img/img-shirt-black.png';
@@ -26,6 +27,7 @@ const Home = () => {
   const [activeFilter, setActiveFilter] = useState('all');
   const [displayedProducts, setDisplayedProducts] = useState(products.slice(0, 6));
   const [showLoginSuccess, setShowLoginSuccess] = useState(false);
+  const [isPopupVisible, setIsPopupVisible] = useState(true);
 
   // --- useEffect untuk memeriksa status login dan menampilkan notifikasi ---
   useEffect(() => {
@@ -41,6 +43,27 @@ const Home = () => {
       return () => clearTimeout(timer);
     }
   }, []);
+
+  // --- BLOK KODE BARU: useEffect untuk mengunci scroll body ---
+  useEffect(() => {
+    if (isPopupVisible) {
+      // Saat pop-up tampil, tambahkan class ke body untuk mencegah scroll
+      document.body.classList.add('modal-open');
+    } else {
+      // Saat pop-up tertutup, hapus class agar bisa scroll kembali
+      document.body.classList.remove('modal-open');
+    }
+
+    // Cleanup function untuk memastikan class dihapus saat komponen di-unmount
+    return () => {
+      document.body.classList.remove('modal-open');
+    };
+  }, [isPopupVisible]); // Efek ini akan berjalan setiap kali nilai isPopupVisible berubah
+  
+  // --- Fungsi untuk menutup pop-up ---
+  const handleClosePopup = () => {
+    setIsPopupVisible(false);
+  };
 
   // --- Fungsi untuk menangani klik pada filter ---
   const handleFilterChange = (filter) => {
@@ -67,6 +90,9 @@ const Home = () => {
 
   return (
     <div className="home-container">
+      {/* Render komponen pop-up */}
+      <AdPopup isVisible={isPopupVisible} onClose={handleClosePopup} />
+
       {/* Tampilkan notifikasi jika state true */}
       {showLoginSuccess && (
         <div className="login-success-notification">
