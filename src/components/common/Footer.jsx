@@ -7,22 +7,26 @@ const Footer = () => {
   return (
     <footer className="footer">
       <div className="footer-container">
-        <div className="footer-section">
-          <h4>CATEGORIES</h4>
-          <ul>
-            <li><a href="#">Women</a></li>
-            <li><a href="#">Men</a></li>
-          </ul>
+        {/* === WRAPPER BARU UNTUK MENGELOMPOKKAN CATEGORIES & HELP === */}
+        <div className="footer-links-group">
+          <div className="footer-section">
+            <h4>CATEGORIES</h4>
+            <ul>
+              <li><a href="#">Women</a></li>
+              <li><a href="#">Men</a></li>
+            </ul>
+          </div>
+          
+          <div className="footer-section">
+            <h4>HELP</h4>
+            <ul>
+              <li><a href="#">Track Order</a></li>
+              <li><a href="#">Returns</a></li>
+              <li><a href="#">FAQs</a></li>
+            </ul>
+          </div>
         </div>
-        
-        <div className="footer-section">
-          <h4>HELP</h4>
-          <ul>
-            <li><a href="#">Track Order</a></li>
-            <li><a href="#">Returns</a></li>
-            <li><a href="#">FAQs</a></li>
-          </ul>
-        </div>
+        {/* === AKHIR WRAPPER === */}
         
         <div className="footer-section get-in-touch">
           <h4>GET IN TOUCH</h4>

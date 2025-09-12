@@ -35,7 +35,6 @@ ul {
   color: #fff;
   padding: 10px 0;
   font-size: 0.85rem;
-  /* Properti sticky, top, dan z-index dihapus dari sini */
 }
 
 .navbar-top-container {
@@ -82,7 +81,6 @@ ul {
   padding: 15px 0;
   background-color: #fff;
   border-bottom: 1px solid #eee;
-  /* Properti sticky, top, dan z-index dihapus dari sini */
 }
 
 .nav-container {
@@ -176,9 +174,17 @@ ul {
   margin: 0 auto;
   padding: 0 5%;
   display: grid;
-  grid-template-columns: 1fr 1fr 2fr 1fr;
+  /* PERUBAHAN: Mengubah grid menjadi 3 kolom utama */
+  grid-template-columns: 2fr 2fr 1.5fr;
   gap: 60px;
   margin-bottom: 50px;
+}
+
+/* Penyesuaian untuk grup link baru */
+.footer-links-group {
+  display: flex;
+  /* Atur jarak antara CATEGORIES dan HELP */
+  gap: 60px; 
 }
 
 .footer-section h4 {
@@ -299,17 +305,10 @@ ul {
     padding: 0 12px;
     font-size: 0.8rem;
   }
-  
-  /* PENTING: Aturan sticky yang berlebihan telah dihapus dari sini */
 
   .nav-menu {
     position: fixed;
     left: -100%;
-    /* Catatan: Anda mungkin perlu menyesuaikan nilai `top` ini agar pas 
-      dengan tinggi header Anda di mobile setelah perubahan.
-      Ukur tinggi header yang sebenarnya di mobile, lalu set nilai `top` di sini.
-      Misalnya, jika tinggi total header menjadi 102px, set top ke 102px.
-    */
     top: 102px; 
     flex-direction: column;
     background-color: #fff;
@@ -355,15 +354,17 @@ ul {
   }
 
   .footer-container {
-    grid-template-columns: 1fr 1fr;
+    /* PERUBAHAN: Semua item akan ditumpuk secara vertikal */
+    grid-template-columns: 1fr;
     gap: 40px;
     margin-bottom: 40px;
-    text-align: center; /* <<< PERUBAHAN DI SINI */
+    text-align: center;
   }
-
-  .footer-section.get-in-touch,
-  .footer-section.newsletter {
-    grid-column: 1 / -1;
+  
+  /* PERUBAHAN: Mengatur grup link di layar tablet */
+  .footer-links-group {
+    justify-content: center; /* Posisi di tengah */
+    gap: 80px; /* Jarak antar link */
   }
 
   .footer-socials {
@@ -395,21 +396,23 @@ ul {
   }
   
   .nav-menu {
-    /* Sama seperti di atas, sesuaikan nilai `top` ini agar pas dengan 
-      tinggi header Anda di layar yang lebih kecil.
-    */
     top: 110px;
     max-height: calc(100vh - 110px);
   }
 
   /* Footer Mobile */
   .footer-container {
-    grid-template-columns: 1fr;
     gap: 30px;
     text-align: center;
   }
+  
+  /* PERUBAHAN: Menumpuk link di layar mobile */
+  .footer-links-group {
+    flex-direction: column; /* Tumpuk vertikal */
+    align-items: center; /* Pusatkan item */
+    gap: 30px; /* Jarak antar link */
+  }
 
-  /* Remove left padding on mobile */
   .footer-section:first-child,
   .footer-section:nth-child(2) {
     padding-left: 0;
