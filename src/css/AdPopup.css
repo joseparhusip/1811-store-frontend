@@ -1,6 +1,5 @@
 /* src/css/AdPopup.css */
 
-/* Lapisan latar belakang gelap */
 .popup-overlay {
   position: fixed;
   top: 0;
@@ -10,49 +9,40 @@
   background-color: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start; /* Diubah ke flex-start agar margin-top berfungsi efektif */
   animation: fadeIn 0.3s ease-out;
   z-index: 9999;
   padding: 20px;
+  overflow-y: auto; /* Memungkinkan scroll jika konten lebih tinggi dari layar */
 }
 
-/* === PERBAIKAN UTAMA DI SINI === */
 .popup-content {
   position: relative;
   background-color: #ffffff;
   border-radius: 16px;
-  box-shadow: 0 8px meditative rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
   animation: zoomIn 0.3s ease-out;
-  
-  /* 1. Padding dihapus agar tidak ada spasi putih */
   padding: 0;
-  
-  /* 2. Overflow hidden untuk memotong gambar sesuai bentuk card */
   overflow: hidden;
   
-  /* 3. Posisi diturunkan dari tengah */
-  margin-top: 5vh; /* Anda bisa ubah nilai 5vh untuk menaikkan/menurunkan */
+  /* === 1. POSISI BARU UNTUK DESKTOP === */
+  /* Diturunkan sedikit dari atas */
+  margin-top: 10vh; 
 
   max-width: 420px;
   width: 90vw;
 }
 
-/* Gambar iklan kini mengisi penuh card */
 .popup-image {
   width: 100%;
   height: auto;
   display: block;
-  /* border-radius dihapus dari gambar, karena sudah diatur oleh .popup-content */
 }
 
-/* Tombol 'X' dipindahkan ke dalam pojok kanan atas gambar */
 .popup-close-btn {
   position: absolute;
-  /* 4. Posisi di dalam kanan atas */
   top: 15px;
   right: 15px;
-
-  /* Style diubah agar terlihat bagus di atas gambar */
   background-color: rgba(0, 0, 0, 0.5);
   color: #ffffff;
   border: 2px solid rgba(255, 255, 255, 0.7);
@@ -75,6 +65,14 @@
   background-color: rgba(0, 0, 0, 0.8);
 }
 
+/* === 2. PENYESUAIAN KHUSUS UNTUK TAMPILAN MOBILE === */
+@media (max-width: 768px) {
+  .popup-content {
+    /* Diturunkan lebih banyak agar tidak menempel header di mobile */
+    margin-top: 25vh;
+  }
+}
+
 /* Animasi */
 @keyframes fadeIn {
   from { opacity: 0; }
@@ -86,7 +84,6 @@
   to { transform: scale(1); opacity: 1; }
 }
 
-/* Mencegah scroll body */
 body.modal-open {
   overflow: hidden;
 }
