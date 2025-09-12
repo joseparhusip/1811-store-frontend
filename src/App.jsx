@@ -9,7 +9,8 @@ import Footer from './components/common/Footer';
 import Home from './pages/Home';
 import Shop from './pages/Shop';
 import About from './pages/About';
-import Contact from './pages/Contact'; // --- 1. TAMBAHKAN impor halaman Contact ---
+import Contact from './pages/Contact';
+import ProductDetail from './pages/ProductDetail'; // --- 1. TAMBAHKAN impor halaman ProductDetail ---
 
 import './index.css';
 
@@ -23,9 +24,11 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/about" element={<About />} />
-          
-          {/* --- 2. TAMBAHKAN rute baru untuk halaman Contact --- */}
           <Route path="/contact" element={<Contact />} />
+          
+          {/* --- 2. TAMBAHKAN rute baru untuk halaman detail produk --- */}
+          {/* :productId adalah parameter dinamis */}
+          <Route path="/product/:productId" element={<ProductDetail />} />
 
         </Routes>
       </main>
