@@ -1,6 +1,7 @@
 // src/components/common/Navbar.jsx
 
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import '../../css/Layout.css';
 import logoImage from '../../assets/img/logo-1811-store.png';
 
@@ -8,8 +9,8 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    // PERUBAHAN: Bungkus kedua navbar dengan elemen <header>
-    <header className="sticky-header-wrapper">
+    // PERUBAHAN: Membungkus seluruh navbar dalam satu div untuk efek sticky
+    <div className="sticky-header-wrapper">
       {/* Top Section */}
       <div className="navbar-top">
         <div className="navbar-top-container">
@@ -27,29 +28,29 @@ const Navbar = () => {
       {/* Main Navbar */}
       <nav className="navbar">
         <div className="nav-container">
-          <a href="/" className="nav-logo">
+          <Link to="/" className="nav-logo">
             <img src={logoImage} alt="1811 Store Logo" className="logo-image" />
-          </a>
+          </Link>
 
           <ul className={menuOpen ? 'nav-menu active' : 'nav-menu'}>
             <li className="nav-item">
-              <a href="/" className="nav-link" onClick={() => setMenuOpen(false)}>Home</a>
+              <Link to="/" className="nav-link" onClick={() => setMenuOpen(false)}>Home</Link>
             </li>
             <li className="nav-item">
-              <a href="/shop" className="nav-link" onClick={() => setMenuOpen(false)}>Shop</a>
+              <Link to="/shop" className="nav-link" onClick={() => setMenuOpen(false)}>Shop</Link>
             </li>
             <li className="nav-item">
-              <a href="/about" className="nav-link" onClick={() => setMenuOpen(false)}>About</a>
+              <Link to="/about" className="nav-link" onClick={() => setMenuOpen(false)}>About</Link>
             </li>
             <li className="nav-item">
-              <a href="/contact" className="nav-link" onClick={() => setMenuOpen(false)}>Contact</a>
+              <Link to="/contact" className="nav-link" onClick={() => setMenuOpen(false)}>Contact</Link>
             </li>
           </ul>
           
           <div className="nav-right-actions">
             <div className="nav-actions">
-              <div className="nav-icon">👤</div>
-              <div className="nav-icon">🛒</div>
+              <Link to="/account" className="nav-icon">👤</Link>
+              <Link to="/cart" className="nav-icon">🛒</Link>
             </div>
             
             <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
@@ -58,9 +59,10 @@ const Navbar = () => {
               <span className="bar"></span>
             </div>
           </div>
+
         </div>
       </nav>
-    </header> // PERUBAHAN: Penutup wrapper
+    </div>
   );
 };
 

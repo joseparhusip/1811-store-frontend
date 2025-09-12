@@ -7,9 +7,9 @@
   padding: 20px;
   gap: 50px;
   font-family: Arial, sans-serif;
-  background-color: #fff; /* Tambahan agar kontras dengan background body */
-  border-radius: 8px; /* Tambahan agar lebih modern */
-  box-shadow: 0 4px 20px rgba(0,0,0,0.05); /* Tambahan shadow halus */
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
 }
 
 .product-image-section {
@@ -23,7 +23,7 @@
   max-width: 100%;
   height: auto;
   border-radius: 8px;
-  object-fit: cover; /* Memastikan gambar tidak gepeng */
+  object-fit: cover;
 }
 
 .product-info-section {
@@ -38,9 +38,8 @@
 }
 
 .product-price {
-  /* --- PERBAIKAN: Ukuran font dikecilkan dari 1.8rem/1.5rem menjadi 1.25rem --- */
   font-size: 1.25rem;
-  font-weight: 600; /* Sedikit lebih tebal agar tetap terlihat jelas */
+  font-weight: 600;
   color: #555;
   margin-bottom: 25px;
 }
@@ -74,7 +73,7 @@
 .color-selector {
   display: flex;
   gap: 10px;
-  flex-wrap: wrap; /* Agar tombol turun ke bawah jika tidak muat */
+  flex-wrap: wrap;
 }
 
 .size-btn,
@@ -84,7 +83,7 @@
   background-color: #fff;
   cursor: pointer;
   border-radius: 5px;
-  font-size: 0.9rem; /* Sedikit dikecilkan agar rapi */
+  font-size: 0.9rem;
   transition: all 0.2s ease;
 }
 
@@ -103,11 +102,10 @@
   border-color: #aaa;
 }
 
-
 .add-to-cart-button {
   width: 100%;
   padding: 15px;
-  background-color: #1a1a1a; /* Warna hitam agar lebih elegan */
+  background-color: #1a1a1a;
   color: white;
   border: none;
   border-radius: 5px;
@@ -127,19 +125,16 @@
   padding: 50px;
 }
 
-
-/* --- PERBAIKAN: CSS RESPONSIVE UNTUK MOBILE --- */
+/* --- CSS RESPONSIVE UNTUK MOBILE --- */
 @media (max-width: 768px) {
   .product-detail-container {
-    /* Mengubah layout menjadi vertikal (gambar di atas, info di bawah) */
     flex-direction: column;
     margin: 20px;
     padding: 15px;
-    gap: 30px; /* Jarak antara gambar dan info */
+    gap: 30px;
   }
 
   .product-title {
-    /* Mengecilkan judul agar tidak terlalu besar di HP */
     font-size: 1.8rem;
   }
 
@@ -151,4 +146,55 @@
     font-size: 1rem;
     padding: 12px;
   }
+}
+
+/* --- CSS UNTUK POP-UP --- */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  background-color: white;
+  padding: 40px 50px;
+  border-radius: 8px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.popup-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #888;
+}
+
+.popup-icon {
+  font-size: 48px;
+  margin-bottom: 20px;
 }

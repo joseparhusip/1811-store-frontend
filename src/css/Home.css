@@ -65,7 +65,6 @@
 /* === Category Preview === */
 .category-preview {
   display: grid;
-  /* Kategori tetap 2 kolom, ini sudah umum untuk desktop */
   grid-template-columns: 1fr 1fr;
   gap: 20px;
   margin: 50px 0;
@@ -132,6 +131,12 @@
 .filter-link {
   font-weight: 500;
   color: #888;
+  /* Tambahan untuk styling button agar mirip <a> */
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-size: 1rem;
 }
 .filter-link.active {
   color: var(--primary-color);
@@ -140,7 +145,6 @@
 
 .product-grid {
   display: grid;
-  /* KUNCI #1: Mengembalikan style DESKTOP ke semula (bisa 3-4 kolom) */
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 30px;
 }
@@ -199,7 +203,6 @@
 /* === Media Queries untuk Tampilan Mobile (Responsive) === */
 /* ======================================================= */
 @media (max-width: 768px) {
-  /* Aturan untuk Hero & Header tetap sama */
   .hero-section {
     flex-direction: column;
     text-align: center;
@@ -210,14 +213,18 @@
   .btn-design { margin-top: 10px; order: 3; }
   .hero-image { order: 1; width: 200px; height: 240px; }
   .hero-content { order: 2; }
+  
+  /* === PERUBAHAN DI SINI === */
   .product-header {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center; /* Diubah dari flex-start menjadi center */
     gap: 15px;
   }
-  .product-filters { gap: 15px; }
+  .product-filters { 
+    gap: 20px; /* Sedikit diperlebar agar tidak terlalu rapat */
+    justify-content: center; /* Ditambahkan untuk menengahkan filter */
+  }
   
-  /* KUNCI #2: Memaksa 2 kolom HANYA untuk tampilan MOBILE */
   .product-grid {
     grid-template-columns: 1fr 1fr !important;
   }

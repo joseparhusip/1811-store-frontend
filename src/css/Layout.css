@@ -22,11 +22,15 @@ ul {
   list-style: none;
 }
 
-/* === PERUBAHAN UTAMA: WRAPPER UNTUK STICKY HEADER === */
+/* === PERUBAHAN: WRAPPER UNTUK STICKY HEADER === */
 .sticky-header-wrapper {
   position: sticky;
   top: 0;
+  left: 0; /* Tambahan untuk memastikan posisi horizontal */
+  width: 100%; /* Memastikan wrapper mengambil lebar penuh */
   z-index: 1001;
+  background-color: #fff; /* Memberi background agar konten di bawahnya tidak tembus */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Optional: Memberi sedikit bayangan */
 }
 
 /* === NAVBAR TOP SECTION === */
@@ -79,7 +83,7 @@ ul {
 .navbar {
   width: 100%;
   padding: 15px 0;
-  background-color: #fff;
+  /* background-color sudah di handle oleh wrapper */
   border-bottom: 1px solid #eee;
 }
 
@@ -174,17 +178,14 @@ ul {
   margin: 0 auto;
   padding: 0 5%;
   display: grid;
-  /* PERUBAHAN: Mengubah grid menjadi 3 kolom utama */
   grid-template-columns: 2fr 2fr 1.5fr;
   gap: 60px;
   margin-bottom: 50px;
 }
 
-/* Penyesuaian untuk grup link baru */
 .footer-links-group {
   display: flex;
-  /* Atur jarak antara CATEGORIES dan HELP */
-  gap: 60px; 
+  gap: 60px;
 }
 
 .footer-section h4 {
@@ -225,7 +226,6 @@ ul {
   font-weight: 500;
 }
 
-/* GET IN TOUCH section - center alignment */
 .footer-section.get-in-touch {
   text-align: center;
 }
@@ -240,7 +240,6 @@ ul {
   margin: 0 auto 15px auto;
 }
 
-/* NEWSLETTER section - center alignment */
 .footer-section.newsletter {
   text-align: center;
 }
@@ -309,7 +308,9 @@ ul {
   .nav-menu {
     position: fixed;
     left: -100%;
-    top: 102px; 
+    /* Kalkulasi top berdasarkan tinggi sticky header */
+    top: 0; /* Kita akan atur ini dengan JS jika tinggi header dinamis, tapi untuk sekarang kita set ulang posisinya relatif ke viewport */
+    margin-top: 102px; /* Jarak dari atas sesuai tinggi header, ini perlu disesuaikan */
     flex-direction: column;
     background-color: #fff;
     width: 100%;
@@ -343,10 +344,12 @@ ul {
   .nav-container {
     flex-wrap: nowrap;
   }
+  
+  /* .nav-menu:not(.active) {
+    display: none; 
+  } */
+  /* Baris ini sebaiknya dihapus agar transisi left bekerja dengan baik */
 
-  .nav-menu:not(.active) {
-    display: none;
-  }
 
   /* Footer Responsive */
   .footer {
@@ -354,17 +357,15 @@ ul {
   }
 
   .footer-container {
-    /* PERUBAHAN: Semua item akan ditumpuk secara vertikal */
     grid-template-columns: 1fr;
     gap: 40px;
     margin-bottom: 40px;
     text-align: center;
   }
   
-  /* PERUBAHAN: Mengatur grup link di layar tablet */
   .footer-links-group {
-    justify-content: center; /* Posisi di tengah */
-    gap: 80px; /* Jarak antar link */
+    justify-content: center;
+    gap: 80px;
   }
 
   .footer-socials {
@@ -396,8 +397,9 @@ ul {
   }
   
   .nav-menu {
-    top: 110px;
-    max-height: calc(100vh - 110px);
+    /* Sesuaikan lagi jarak top jika tinggi header berubah di mobile */
+    margin-top: 95px; /* Sesuaikan nilainya */
+    max-height: calc(100vh - 95px); /* Sesuaikan nilainya */
   }
 
   /* Footer Mobile */
@@ -406,11 +408,10 @@ ul {
     text-align: center;
   }
   
-  /* PERUBAHAN: Menumpuk link di layar mobile */
   .footer-links-group {
-    flex-direction: column; /* Tumpuk vertikal */
-    align-items: center; /* Pusatkan item */
-    gap: 30px; /* Jarak antar link */
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
   }
 
   .footer-section:first-child,
@@ -433,4 +434,27 @@ ul {
   .copyright {
     font-size: 0.8rem;
   }
+}
+
+/* --- CSS UNTUK IKON KERANJANG DI NAVBAR --- */
+.cart-icon-wrapper {
+  position: relative;
+  text-decoration: none;
+  color: inherit;
+}
+
+.cart-item-count {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 11px;
+  font-weight: bold;
 }

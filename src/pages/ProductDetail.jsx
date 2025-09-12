@@ -1,22 +1,22 @@
-// src/pages/ProductDetail.jsx
-
-import React, { useState } from 'react'; // 1. Import useState
+import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { products } from '../data/products'; // Pastikan path ini benar
+import { products } from '../data/products';
+import { useCart } from '../context/CartContext'; // --- 1. TAMBAHAN: Impor useCart ---
 import '../css/ProductDetail.css';
 
 const ProductDetail = () => {
   const { productId } = useParams();
   const product = products.find(p => p.id === parseInt(productId));
 
-  // 2. State untuk melacak ukuran dan warna yang aktif
-  const [selectedSize, setSelectedSize] = useState('M'); // Default 'M' aktif
-  const [selectedColor, setSelectedColor] = useState('WHITE'); // Default 'WHITE' aktif
+  const [selectedSize, setSelectedSize] = useState('M');
+  const [selectedColor, setSelectedColor] = useState('WHITE');
+  
+  // --- 2. TAMBAHAN: State untuk pop-up dan akses ke fungsi addToCart ---
+  const { addToCart } = useCart();
+  const [showPopup, setShowPopup] = useState(false);
 
-  // --- Daftar Opsi (bisa juga dari data produk jika ada) ---
   const availableSizes = ['S', 'M', 'L', 'XL'];
   const availableColors = ['BLACK', 'WHITE'];
-
 
   if (!product) {
     return (
@@ -31,62 +31,87 @@ const ProductDetail = () => {
     return new Intl.NumberFormat('id-ID', {
       style: 'currency',
       currency: 'IDR',
-      minimumFractionDigits: 0
+      minimumFractionDigits: 0,
     }).format(price);
+  };
+  
+  // --- 3. TAMBAHAN: Fungsi untuk handle klik "Add to Cart" ---
+  const handleAddToCart = () => {
+    const productToAdd = {
+      ...product,
+      size: selectedSize,
+      color: selectedColor,
+    };
+    addToCart(productToAdd);
+    setShowPopup(true);
+    // Sembunyikan pop-up setelah 3 detik
+    setTimeout(() => {
+      setShowPopup(false);
+    }, 3000);
   };
 
   return (
-    <main className="product-detail-container">
-      <div className="product-image-section">
-        <img src={product.image} alt={product.name} className="main-product-image" />
-      </div>
-      <div className="product-info-section">
-        <h1 className="product-title">{product.name}</h1>
-        <p className="product-price">{formatPrice(product.price)}</p>
-        <p className="product-description">
-          T-shirt 1811 yang memiliki bahan baju yang lembut dan nyaman untuk dipakai kemana saja.
-        </p>
+    <> {/* Gunakan Fragment untuk membungkus halaman dan pop-up */}
+      <main className="product-detail-container">
+        <div className="product-image-section">
+          <img src={product.image} alt={product.name} className="main-product-image" />
+        </div>
+        <div className="product-info-section">
+          <h1 className="product-title">{product.name}</h1>
+          <p className="product-price">{formatPrice(product.price)}</p>
+          <p className="product-description">
+            T-shirt 1811 yang memiliki bahan baju yang lembut dan nyaman untuk dipakai kemana saja.
+          </p>
 
-        <div className="product-options">
-          {/* --- 3. Opsi Ukuran yang Interaktif --- */}
-          <div className="option-group">
-            <label htmlFor="size">Size</label>
-            <div className="size-selector">
-              {availableSizes.map((size) => (
-                <button
-                  key={size}
-                  // Cek apakah ukuran ini sama dengan yang ada di state
-                  className={`size-btn ${selectedSize === size ? 'active' : ''}`}
-                  // Update state saat tombol di-klik
-                  onClick={() => setSelectedSize(size)}
-                >
-                  {size}
-                </button>
-              ))}
+          <div className="product-options">
+            <div className="option-group">
+              <label htmlFor="size">Size</label>
+              <div className="size-selector">
+                {availableSizes.map((size) => (
+                  <button
+                    key={size}
+                    className={`size-btn ${selectedSize === size ? 'active' : ''}`}
+                    onClick={() => setSelectedSize(size)}
+                  >
+                    {size}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="option-group">
+              <label htmlFor="color">Color</label>
+              <div className="color-selector">
+                {availableColors.map((color) => (
+                  <button
+                    key={color}
+                    className={`color-btn ${selectedColor === color ? 'active' : ''}`}
+                    onClick={() => setSelectedColor(color)}
+                  >
+                    {color}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
-          {/* --- 4. Opsi Warna yang Interaktif --- */}
-          <div className="option-group">
-            <label htmlFor="color">Color</label>
-            <div className="color-selector">
-                {availableColors.map((color) => (
-                    <button
-                        key={color}
-                        // Cek apakah warna ini sama dengan yang ada di state
-                        className={`color-btn ${selectedColor === color ? 'active' : ''}`}
-                        // Update state saat tombol di-klik
-                        onClick={() => setSelectedColor(color)}
-                    >
-                        {color}
-                    </button>
-                ))}
-            </div>
+          
+          {/* --- 4. MODIFIKASI: Panggil handleAddToCart saat tombol diklik --- */}
+          <button className="add-to-cart-button" onClick={handleAddToCart}>
+            ADD TO CART
+          </button>
+        </div>
+      </main>
+
+      {/* --- 5. TAMBAHAN: JSX untuk Pop-up --- */}
+      {showPopup && (
+        <div className="popup-overlay">
+          <div className="popup-content">
+            <button className="popup-close" onClick={() => setShowPopup(false)}>×</button>
+            <div className="popup-icon">🛒</div>
+            <p>T-Shirt Berhasil Ditambahkan ke Keranjang</p>
           </div>
         </div>
-        
-        <button className="add-to-cart-button">ADD TO CART</button>
-      </div>
-    </main>
+      )}
+    </>
   );
 };
 
