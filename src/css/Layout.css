@@ -22,15 +22,20 @@ ul {
   list-style: none;
 }
 
+/* === PERUBAHAN UTAMA: WRAPPER UNTUK STICKY HEADER === */
+.sticky-header-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 1001;
+}
+
 /* === NAVBAR TOP SECTION === */
 .navbar-top {
   background-color: #000;
   color: #fff;
   padding: 10px 0;
   font-size: 0.85rem;
-  position: sticky;
-  top: 0;
-  z-index: 1001;
+  /* Properti sticky, top, dan z-index dihapus dari sini */
 }
 
 .navbar-top-container {
@@ -77,9 +82,7 @@ ul {
   padding: 15px 0;
   background-color: #fff;
   border-bottom: 1px solid #eee;
-  position: sticky;
-  top: 42px; /* Disesuaikan dengan tinggi navbar-top PADA DESKTOP */
-  z-index: 1000;
+  /* Properti sticky, top, dan z-index dihapus dari sini */
 }
 
 .nav-container {
@@ -161,12 +164,13 @@ ul {
 }
 
 
-/* === FOOTER STYLES (tidak berubah) === */
+/* === FOOTER STYLES === */
 .footer {
   background-color: #000;
   color: #fff;
   padding: 50px 0 30px 0;
 }
+
 .footer-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -176,26 +180,39 @@ ul {
   gap: 40px;
   margin-bottom: 40px;
 }
-/* ... sisa kode footer ... */
+
+/* ... Sisa CSS footer tidak berubah ... */
 
 
 /* === RESPONSIVE DESIGN === */
 @media (max-width: 768px) {
+  .navbar-top-container {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
   
-  /* --- PERBAIKAN BARU: Navbar atas disembunyikan, navbar utama tetap sticky --- */
-  .navbar-top {
-    display: none; /* Sembunyikan bar hitam di mobile */
+  .navbar-top-right {
+    justify-content: center;
+    flex-wrap: wrap;
   }
-
-  .navbar {
-    top: 0; /* Jadikan navbar utama menempel di PALING ATAS */
+  
+  .navbar-top-right span {
+    padding: 0 12px;
+    font-size: 0.8rem;
   }
-  /* --- Akhir Perbaikan --- */
+  
+  /* PENTING: Aturan sticky yang berlebihan telah dihapus dari sini */
 
   .nav-menu {
-    position: absolute;
+    position: fixed;
     left: -100%;
-    top: 72px; /* Tepat di bawah navbar utama */
+    /* Catatan: Anda mungkin perlu menyesuaikan nilai `top` ini agar pas 
+      dengan tinggi header Anda di mobile setelah perubahan.
+      Ukur tinggi header yang sebenarnya di mobile, lalu set nilai `top` di sini.
+      Misalnya, jika tinggi total header menjadi 102px, set top ke 102px.
+    */
+    top: 102px; 
     flex-direction: column;
     background-color: #fff;
     width: 100%;
@@ -203,7 +220,9 @@ ul {
     transition: 0.3s;
     gap: 0;
     box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    z-index: -1; /* Pastikan di bawah navbar utama */
+    z-index: 999;
+    max-height: calc(100vh - 102px);
+    overflow-y: auto;
   }
 
   .nav-menu.active {
@@ -241,6 +260,10 @@ ul {
 
 
 @media (max-width: 480px) {
+  .navbar-top {
+    font-size: 0.75rem;
+  }
+
   .logo-image {
     height: 35px;
   }
@@ -252,5 +275,13 @@ ul {
 
   .nav-actions {
     gap: 10px;
+  }
+  
+  .nav-menu {
+    /* Sama seperti di atas, sesuaikan nilai `top` ini agar pas dengan 
+      tinggi header Anda di layar yang lebih kecil.
+    */
+    top: 110px;
+    max-height: calc(100vh - 110px);
   }
 }

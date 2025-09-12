@@ -1,16 +1,16 @@
 // src/components/common/Navbar.jsx
 
-import React, { useState } from 'react'; // PERUBAHAN: Impor useState
+import React, { useState } from 'react';
 import '../../css/Layout.css';
 import logoImage from '../../assets/img/logo-1811-store.png';
 
 const Navbar = () => {
-  // PERUBAHAN: Tambahkan state untuk mengontrol visibilitas menu mobile
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <>
-      {/* Top Section (Tidak ada perubahan) */}
+    // PERUBAHAN: Bungkus kedua navbar dengan elemen <header>
+    <header className="sticky-header-wrapper">
+      {/* Top Section */}
       <div className="navbar-top">
         <div className="navbar-top-container">
           <div className="navbar-top-left">
@@ -31,7 +31,6 @@ const Navbar = () => {
             <img src={logoImage} alt="1811 Store Logo" className="logo-image" />
           </a>
 
-          {/* PERUBAHAN: Tambahkan class 'active' secara kondisional */}
           <ul className={menuOpen ? 'nav-menu active' : 'nav-menu'}>
             <li className="nav-item">
               <a href="/" className="nav-link" onClick={() => setMenuOpen(false)}>Home</a>
@@ -53,17 +52,15 @@ const Navbar = () => {
               <div className="nav-icon">🛒</div>
             </div>
             
-            {/* PERUBAHAN: Tambahkan tombol hamburger */}
             <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
               <span className="bar"></span>
               <span className="bar"></span>
               <span className="bar"></span>
             </div>
           </div>
-
         </div>
       </nav>
-    </>
+    </header> // PERUBAHAN: Penutup wrapper
   );
 };
 
