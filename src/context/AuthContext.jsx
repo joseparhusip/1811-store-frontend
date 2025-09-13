@@ -40,9 +40,8 @@ export const AuthProvider = ({ children }) => {
       
       return true; // Kembalikan true jika berhasil
     } else {
-      // Jika gagal, bisa tambahkan alert atau state untuk pesan error
-      alert('Email atau password salah!');
-      return false; // Kembalikan false jika gagal
+      // Return false jika gagal - popup akan ditampilkan di komponen Login
+      return false;
     }
   };
 
