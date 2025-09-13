@@ -4,6 +4,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext.jsx';
+import { LanguageProvider } from './context/LanguageContext'; // Import LanguageProvider
 
 // Impor Komponen & Halaman
 import Navbar from './components/common/Navbar';
@@ -17,7 +18,7 @@ import Cart from './pages/Cart';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import Checkout from './pages/Checkout';
-import Payment from './pages/Payment'; // <-- 1. Impor halaman baru
+import Payment from './pages/Payment';
 
 import './index.css';
 
@@ -41,7 +42,7 @@ const AppLayout = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/checkout" element={<Checkout />} />
-          <Route path="/payment" element={<Payment />} /> {/* <-- 2. Tambahkan rute baru */}
+          <Route path="/payment" element={<Payment />} />
         </Routes>
       </main>
       {showLayout && <Footer />}
@@ -52,11 +53,13 @@ const AppLayout = () => {
 function App() {
   return (
     <Router>
-      <AuthProvider>
-        <CartProvider>
-          <AppLayout />
-        </CartProvider>
-      </AuthProvider>
+      <LanguageProvider> {/* Wrap dengan LanguageProvider */}
+        <AuthProvider>
+          <CartProvider>
+            <AppLayout />
+          </CartProvider>
+        </AuthProvider>
+      </LanguageProvider>
     </Router>
   );
 }

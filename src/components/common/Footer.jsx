@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import '../../css/Layout.css';
+import { useLanguage } from '../../context/LanguageContext'; // Import language context
 
 // Import your social media icons
 import tiktokIcon from '../../assets/icons/tiktok.png';
@@ -10,14 +11,17 @@ import facebookIcon from '../../assets/icons/facebook.png';
 import whatsappIcon from '../../assets/icons/whatsapp.png';
 
 const Footer = () => {
+  const { t } = useLanguage(); // Gunakan language context
+  
   // === LOGIKA BARU UNTUK FLOATING ACTION BUTTON ===
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   
   // Nomor WhatsApp tetap sama
   const phoneNumber = "6282213859516";
   
-  // Pesan otomatis WhatsApp tetap sama
-  const whatsappMessage = `Halo Admin 1811 Studio yang baik, saya mau custom baju yang bagus dong! Bisa bantu saya mewujudkan desain impian saya?
+  // Pesan otomatis WhatsApp dengan multi-bahasa
+  const whatsappMessage = t('footer.whatsappMessage') || 
+    `Halo Admin 1811 Studio yang baik, saya mau custom baju yang bagus dong! Bisa bantu saya mewujudkan desain impian saya?
 
 Nama: 
 No Wa: 
@@ -49,37 +53,33 @@ Lampiran gambar: `;
     }
   };
 
-
   return (
     <>
       <footer className="footer">
         <div className="footer-container">
-          {/* === PERUBAHAN: Menghilangkan div .footer-links-group === */}
-          {/* SEKARANG SETIAP .footer-section MENJADI ITEM GRID LANGSUNG */}
-          
           <div className="footer-section">
-            <h4>CATEGORIES</h4>
+            <h4>{t('footer.categories')}</h4>
             <ul>
-              <li><a href="#">Women</a></li>
-              <li><a href="#">Men</a></li>
+              <li><a href="#">{t('home.women')}</a></li>
+              <li><a href="#">{t('home.men')}</a></li>
             </ul>
           </div>
           <div className="footer-section">
-            <h4>HELP</h4>
+            <h4>{t('footer.help')}</h4>
             <ul>
-              <li><a href="#">Track Order</a></li>
-              <li><a href="#">Returns</a></li>
-              <li><a href="#">FAQs</a></li>
+              <li><a href="#">{t('footer.trackOrder')}</a></li>
+              <li><a href="#">{t('footer.returns')}</a></li>
+              <li><a href="#">{t('footer.faqs')}</a></li>
             </ul>
           </div>
 
           <div className="footer-section get-in-touch">
-            <h4>GET IN TOUCH</h4>
-            <p>Any questions? Let us know in store 1811, Jl. Sariasih No.54, Sarijadi, Kec. Sukasari, Kota Bandung, Jawa Barat 40151</p>
-            <p className="phone">Call us on<br />+6282213859516</p>
+            <h4>{t('footer.getInTouch')}</h4>
+            <p>{t('footer.contactText')}</p>
+            <p className="phone">{t('footer.callUs')}<br />+6282213859516</p>
           </div>
           <div className="footer-section newsletter">
-            <h4>NEWSLETTER</h4>
+            <h4>{t('footer.newsletter')}</h4>
             <p>1811studioproduction@gmail.com</p>
           </div>
         </div>
@@ -90,7 +90,7 @@ Lampiran gambar: `;
             <a href="#" className="social-icon" target="_blank" rel="noopener noreferrer"><img src={facebookIcon} alt="Facebook" /></a>
             <a href={`https://wa.me/${phoneNumber}`} className="social-icon" target="_blank" rel="noopener noreferrer"><img src={whatsappIcon} alt="WhatsApp" /></a>
           </div>
-          <p className="copyright">Copyright © 1811 2025 All rights reserved</p>
+          <p className="copyright">{t('footer.copyright')}</p>
         </div>
       </footer>
 

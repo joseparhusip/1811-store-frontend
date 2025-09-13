@@ -1,0 +1,173 @@
+/* src/css/Language.css */
+
+/* Language Switcher Styling */
+.language-switcher-container {
+  position: relative;
+  display: inline-block;
+}
+
+.language-switcher {
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 500;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  min-width: 60px;
+  justify-content: center;
+}
+
+.language-switcher:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+/* Language Dropdown - Compact Pop-up Style */
+.language-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  z-index: 9999;
+  min-width: 140px;
+  overflow: hidden;
+  animation: slideDown 0.25s ease-out;
+}
+
+/* Small arrow pointing up */
+.language-dropdown::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  right: 12px;
+  width: 12px;
+  height: 12px;
+  background: white;
+  border-left: 1px solid #e0e0e0;
+  border-top: 1px solid #e0e0e0;
+  transform: rotate(45deg);
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.language-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 14px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  color: #333;
+  transition: all 0.2s ease;
+  text-align: left;
+  font-weight: 500;
+}
+
+.language-option:hover {
+  background-color: #f8f9fa;
+  color: #000;
+}
+
+.language-option:first-child:hover {
+  border-radius: 8px 8px 0 0;
+}
+
+.language-option:last-child:hover {
+  border-radius: 0 0 8px 8px;
+}
+
+.language-option.active {
+  background-color: #007bff;
+  color: white;
+  font-weight: 600;
+}
+
+.language-option.active:hover {
+  background-color: #0056b3;
+}
+
+/* Flag emojis styling */
+.flag-desktop {
+  font-size: 16px;
+}
+
+.lang-text-mobile {
+  display: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .language-switcher-container {
+    margin-left: 8px;
+  }
+  
+  .language-dropdown {
+    right: -5px;
+    min-width: 130px;
+  }
+  
+  .language-dropdown::before {
+    right: 10px;
+  }
+  
+  .language-option {
+    padding: 9px 12px;
+    font-size: 11px;
+  }
+  
+  .language-switcher {
+    font-size: 10px;
+    padding: 3px 6px;
+    min-width: 55px;
+  }
+}
+
+/* Focus states untuk accessibility */
+.language-switcher:focus {
+  outline: 2px solid rgba(255, 255, 255, 0.5);
+  outline-offset: 2px;
+}
+
+.language-option:focus {
+  background-color: #e7f3ff;
+  outline: none;
+}
+
+/* Smooth close animation */
+.language-dropdown.closing {
+  animation: slideUp 0.2s ease-in forwards;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.95);
+  }
+}

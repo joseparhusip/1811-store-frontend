@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../css/Home.css';
 import AdPopup from '../components/common/AdPopup';
+import { useLanguage } from '../context/LanguageContext'; // Import language context
 
 // --- Mengimpor gambar statis ---
 import imgShirtBlack from '../assets/img/img-shirt-black.png';
@@ -23,6 +24,8 @@ const formatPrice = (price) => {
 };
 
 const Home = () => {
+  const { t } = useLanguage(); // Gunakan language context
+  
   // --- State untuk filter dan produk yang ditampilkan ---
   const [activeFilter, setActiveFilter] = useState('all');
   const [displayedProducts, setDisplayedProducts] = useState(products.slice(0, 6));
@@ -93,7 +96,7 @@ const Home = () => {
       {/* Tampilkan notifikasi jika state true */}
       {showLoginSuccess && (
         <div className="login-success-notification">
-          🎉 Login Berhasil! Selamat Datang Kembali.
+          {t('auth.loginSuccess')}
         </div>
       )}
 
@@ -101,25 +104,25 @@ const Home = () => {
       <header className="hero-section">
         <img src={imgShirtBlack} alt="New Arrivals T-Shirt" className="hero-image" />
         <div className="hero-content">
-          <p>Men Collection from 1811</p>
-          <h1>NEW ARRIVALS</h1>
-          <button className="btn btn-shop-now">SHOP NOW</button>
+          <p>{t('home.menCollection')}</p>
+          <h1>{t('home.newArrivals')}</h1>
+          <button className="btn btn-shop-now">{t('home.shopNow')}</button>
         </div>
-        <button className="btn btn-design">Design Your T-Shirt</button>
+        <button className="btn btn-design">{t('home.designTshirt')}</button>
       </header>
 
       {/* Bagian Kategori */}
       <section className="category-preview">
         <div className="category-card women" style={{backgroundImage: `url(${imgWomenStyle})`}}>
           <div className="card-content">
-            <h2>WOMEN</h2>
-            <p>1811 style</p>
+            <h2>{t('home.women')}</h2>
+            <p>{t('home.style')}</p>
           </div>
         </div>
         <div className="category-card men" style={{backgroundImage: `url(${imgMenStyle})`}}>
            <div className="card-content">
-            <h2>MEN</h2>
-            <p>1811 style</p>
+            <h2>{t('home.men')}</h2>
+            <p>{t('home.style')}</p>
           </div>
         </div>
       </section>
@@ -127,8 +130,8 @@ const Home = () => {
       {/* Bagian Product Overview */}
       <section className="product-overview">
         <div className="product-header">
-            <h2>PRODUCT OVERVIEW</h2>
-            <button className="btn btn-design-alt">Design Your T-Shirt</button>
+            <h2>{t('home.productOverview')}</h2>
+            <button className="btn btn-design-alt">{t('home.designTshirt')}</button>
         </div>
 
         {/* Filter Buttons dengan Logic */}
@@ -137,19 +140,19 @@ const Home = () => {
             onClick={() => handleFilterChange('all')} 
             className={`filter-link ${activeFilter === 'all' ? 'active' : ''}`}
           >
-            All Products ({products.length})
+            {t('home.allProducts')} ({products.length})
           </button>
           <button 
             onClick={() => handleFilterChange('women')} 
             className={`filter-link ${activeFilter === 'women' ? 'active' : ''}`}
           >
-            Women ({products.filter(p => p.category === 'Women').length})
+            {t('home.women')} ({products.filter(p => p.category === 'Women').length})
           </button>
           <button 
             onClick={() => handleFilterChange('men')} 
             className={`filter-link ${activeFilter === 'men' ? 'active' : ''}`}
           >
-            Men ({products.filter(p => p.category === 'Men').length})
+            {t('home.men')} ({products.filter(p => p.category === 'Men').length})
           </button>
         </div>
 
@@ -164,7 +167,7 @@ const Home = () => {
                     <div>
                       <h3 className="product-name">{product.name}</h3>
                       <p className="product-price">{formatPrice(product.price)}</p>
-                      <p className="product-category">Category: {product.category}</p>
+                      <p className="product-category">{t('home.category')}: {product.category}</p>
                     </div>
                     <button className="add-to-cart-btn">🛒</button>
                   </div>
@@ -173,7 +176,7 @@ const Home = () => {
             ))
           ) : (
             <div className="no-products">
-              <p>Tidak ada produk dalam kategori ini.</p>
+              <p>{t('home.noProducts')}</p>
             </div>
           )}
         </div>
@@ -185,17 +188,15 @@ const Home = () => {
               className="btn btn-load-more" 
               onClick={handleLoadMore}
             >
-              LOAD MORE
+              {t('home.loadMore')}
             </button>
           </div>
         )}
       </section>
 
-      {/* ======================================= */}
-      {/* ===   Bagian Video (IMPROVED)       === */}
-      {/* ======================================= */}
+      {/* Bagian Video */}
       <section className="video-section">
-        <h2>Our Style in Motion</h2>
+        <h2>{t('home.videoTitle')}</h2>
         <div className="video-grid">
           <div className="video-item">
             <iframe 

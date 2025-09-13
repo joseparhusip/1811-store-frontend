@@ -1,15 +1,23 @@
 // src/components/common/Navbar.jsx
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import '../../css/Layout.css';
+import '../../css/Language.css'; // Import the language CSS
 import logoImage from '../../assets/img/logo-1811-store.png';
 import { useAuth } from '../../context/AuthContext';
+import { useLanguage } from '../../context/LanguageContext';
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+  const [languageMenuOpen, setLanguageMenuOpen] = useState(false);
   const { user, logout } = useAuth();
+  const { language, changeLanguage, t } = useLanguage();
+  
+  // Refs for click outside detection
+  const languageRef = useRef(null);
+  const profileRef = useRef(null);
 
   const handleLogout = () => {
     logout();
@@ -19,6 +27,44 @@ const Navbar = () => {
   const closeAllMenus = () => {
     setMenuOpen(false);
     setProfileMenuOpen(false);
+    setLanguageMenuOpen(false);
+  };
+
+  // Handle click outside to close dropdowns
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (languageRef.current && !languageRef.current.contains(event.target)) {
+        setLanguageMenuOpen(false);
+      }
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setProfileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  // Fungsi untuk mengganti bahasa
+  const handleLanguageChange = (newLanguage) => {
+    if (newLanguage !== language) {
+      changeLanguage(newLanguage);
+    }
+    setLanguageMenuOpen(false);
+  };
+
+  const toggleLanguageMenu = (e) => {
+    e.stopPropagation();
+    setLanguageMenuOpen(!languageMenuOpen);
+    setProfileMenuOpen(false); // Close profile menu if open
+  };
+
+  const toggleProfileMenu = (e) => {
+    e.stopPropagation();
+    setProfileMenuOpen(!profileMenuOpen);
+    setLanguageMenuOpen(false); // Close language menu if open
   };
 
   return (
@@ -27,16 +73,55 @@ const Navbar = () => {
       <div className="navbar-top">
         <div className="navbar-top-container">
           <div className="navbar-top-left">
-            <span>GOOD CLOTHES MADE FROM GOOD HAND</span>
+            <span>{t('navbar.tagline')}</span>
           </div>
           <div className="navbar-top-right">
-            <span>Help & FAQs</span>
+            <span>{t('navbar.help')}</span>
             {user ? (
               <span>{user.email}</span>
             ) : (
-              <span>My Account</span>
+              <span>{t('navbar.account')}</span>
             )}
-            <span>EN</span>
+            
+            {/* Language Switcher */}
+            <div className="language-switcher-container" ref={languageRef}>
+              <div 
+                className="language-switcher"
+                onClick={toggleLanguageMenu}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleLanguageMenu(e);
+                  }
+                }}
+              >
+                <span>{language === 'id' ? '🇮🇩' : '🇺🇸'}</span>
+                <span>{language.toUpperCase()}</span>
+                <span style={{ fontSize: '8px', marginLeft: '2px' }}>▼</span>
+              </div>
+              {languageMenuOpen && (
+                <div className="language-dropdown">
+                  <button 
+                    onClick={() => handleLanguageChange('id')}
+                    className={`language-option ${language === 'id' ? 'active' : ''}`}
+                  >
+                    <span className="flag-desktop">🇮🇩</span>
+                    <span className="lang-text-desktop">Indonesia</span>
+                    <span className="lang-text-mobile">ID</span>
+                  </button>
+                  <button 
+                    onClick={() => handleLanguageChange('en')}
+                    className={`language-option ${language === 'en' ? 'active' : ''}`}
+                  >
+                    <span className="flag-desktop">🇺🇸</span>
+                    <span className="lang-text-desktop">English</span>
+                    <span className="lang-text-mobile">EN</span>
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -50,28 +135,45 @@ const Navbar = () => {
 
           <ul className={menuOpen ? 'nav-menu active' : 'nav-menu'}>
             <li className="nav-item">
-              <Link to="/" className="nav-link" onClick={closeAllMenus}>Home</Link>
+              <Link to="/" className="nav-link" onClick={closeAllMenus}>{t('navbar.home')}</Link>
             </li>
             <li className="nav-item">
-              <Link to="/shop" className="nav-link" onClick={closeAllMenus}>Shop</Link>
+              <Link to="/shop" className="nav-link" onClick={closeAllMenus}>{t('navbar.shop')}</Link>
             </li>
             <li className="nav-item">
-              <Link to="/about" className="nav-link" onClick={closeAllMenus}>About</Link>
+              <Link to="/about" className="nav-link" onClick={closeAllMenus}>{t('navbar.about')}</Link>
             </li>
             <li className="nav-item">
-              <Link to="/contact" className="nav-link" onClick={closeAllMenus}>Contact</Link>
+              <Link to="/contact" className="nav-link" onClick={closeAllMenus}>{t('navbar.contact')}</Link>
             </li>
           </ul>
           
           <div className="nav-right-actions">
             <div className="nav-actions">
               {user ? (
-                <div className="profile-menu-container">
-                  <span className="nav-icon" onClick={() => setProfileMenuOpen(!profileMenuOpen)}>👤</span>
+                <div className="profile-menu-container" ref={profileRef}>
+                  <span 
+                    className="nav-icon" 
+                    onClick={toggleProfileMenu}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        toggleProfileMenu(e);
+                      }
+                    }}
+                  >
+                    👤
+                  </span>
                   {profileMenuOpen && (
                     <div className="profile-dropdown">
-                      <Link to="/profile" className="dropdown-item" onClick={closeAllMenus}>Edit Profile</Link>
-                      <button onClick={handleLogout} className="dropdown-item logout-button">Logout</button>
+                      <Link to="/profile" className="dropdown-item" onClick={closeAllMenus}>
+                        Edit Profile
+                      </Link>
+                      <button onClick={handleLogout} className="dropdown-item logout-button">
+                        Logout
+                      </button>
                     </div>
                   )}
                 </div>
@@ -81,12 +183,18 @@ const Navbar = () => {
               <Link to="/cart" className="nav-icon" onClick={closeAllMenus}>🛒</Link>
             </div>
             
-            {/* =====================================================
-              === INI SATU-SATUNYA PERUBAHAN DI FILE INI ===
-              Menambahkan kelas 'active' saat menuOpen bernilai true
-              =====================================================
-            */}
-            <div className={`hamburger ${menuOpen ? 'active' : ''}`} onClick={() => setMenuOpen(!menuOpen)}>
+            <div 
+              className={`hamburger ${menuOpen ? 'active' : ''}`} 
+              onClick={() => setMenuOpen(!menuOpen)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  setMenuOpen(!menuOpen);
+                }
+              }}
+            >
               <span className="bar"></span>
               <span className="bar"></span>
               <span className="bar"></span>
