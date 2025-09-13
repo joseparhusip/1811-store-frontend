@@ -4,19 +4,18 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../../css/Layout.css';
 import logoImage from '../../assets/img/logo-1811-store.png';
-import { useAuth } from '../../context/AuthContext'; // 1. Impor useAuth
+import { useAuth } from '../../context/AuthContext';
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [profileMenuOpen, setProfileMenuOpen] = useState(false); // State untuk dropdown profil
-  const { user, logout } = useAuth(); // 2. Ambil status user dan fungsi logout
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+  const { user, logout } = useAuth();
 
   const handleLogout = () => {
     logout();
-    setProfileMenuOpen(false); // Tutup dropdown setelah logout
+    setProfileMenuOpen(false);
   };
   
-  // Fungsi untuk menutup semua menu
   const closeAllMenus = () => {
     setMenuOpen(false);
     setProfileMenuOpen(false);
@@ -32,7 +31,6 @@ const Navbar = () => {
           </div>
           <div className="navbar-top-right">
             <span>Help & FAQs</span>
-            {/* 3. MODIFIKASI: Tampilkan email user jika sudah login, atau link My Account jika belum */}
             {user ? (
               <span>{user.email}</span>
             ) : (
@@ -67,13 +65,11 @@ const Navbar = () => {
           
           <div className="nav-right-actions">
             <div className="nav-actions">
-              {/* 4. INTI PERUBAHAN: Logika untuk ikon profil */}
               {user ? (
                 <div className="profile-menu-container">
                   <span className="nav-icon" onClick={() => setProfileMenuOpen(!profileMenuOpen)}>👤</span>
                   {profileMenuOpen && (
                     <div className="profile-dropdown">
-                      {/* Ganti /profile dengan rute halaman edit profil Anda nanti */}
                       <Link to="/profile" className="dropdown-item" onClick={closeAllMenus}>Edit Profile</Link>
                       <button onClick={handleLogout} className="dropdown-item logout-button">Logout</button>
                     </div>
@@ -85,7 +81,12 @@ const Navbar = () => {
               <Link to="/cart" className="nav-icon" onClick={closeAllMenus}>🛒</Link>
             </div>
             
-            <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
+            {/* =====================================================
+              === INI SATU-SATUNYA PERUBAHAN DI FILE INI ===
+              Menambahkan kelas 'active' saat menuOpen bernilai true
+              =====================================================
+            */}
+            <div className={`hamburger ${menuOpen ? 'active' : ''}`} onClick={() => setMenuOpen(!menuOpen)}>
               <span className="bar"></span>
               <span className="bar"></span>
               <span className="bar"></span>

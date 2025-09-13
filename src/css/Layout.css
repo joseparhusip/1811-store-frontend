@@ -164,6 +164,18 @@ ul {
   transition: all 0.3s ease-in-out;
 }
 
+.hamburger.active .bar:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active .bar:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.hamburger.active .bar:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
 
 /* === FOOTER STYLES === */
 .footer {
@@ -220,7 +232,6 @@ ul {
   font-weight: 500;
 }
 
-/* Perataan default untuk desktop (rata kiri) */
 .footer-section,
 .footer-section h4,
 .footer-section p {
@@ -319,6 +330,13 @@ ul {
 
   .hamburger {
     display: flex;
+    /* ================================================
+      === INI KODE PERBAIKANNYA ===
+      Menempatkan hamburger di atas menu navigasi
+      ================================================
+    */
+    position: relative;
+    z-index: 1000;
   }
 
   .nav-container {
@@ -371,18 +389,15 @@ ul {
 
   /* Footer Mobile */
   .footer-container {
-    grid-template-columns: 1fr; /* Layout menjadi 1 kolom */
+    grid-template-columns: 1fr;
     gap: 30px;
   }
   
-  /* === INI PERBAIKANNYA === */
-  /* Memaksa semua teks di dalam .footer-section menjadi rata tengah HANYA di mobile */
   .footer-section,
   .footer-section h4,
   .footer-section p {
     text-align: center;
   }
-  /* ======================== */
 
   .footer-socials {
     gap: 12px;

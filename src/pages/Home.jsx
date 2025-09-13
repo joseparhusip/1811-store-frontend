@@ -44,21 +44,18 @@ const Home = () => {
     }
   }, []);
 
-  // --- BLOK KODE BARU: useEffect untuk mengunci scroll body ---
+  // --- useEffect untuk mengunci scroll body ---
   useEffect(() => {
     if (isPopupVisible) {
-      // Saat pop-up tampil, tambahkan class ke body untuk mencegah scroll
       document.body.classList.add('modal-open');
     } else {
-      // Saat pop-up tertutup, hapus class agar bisa scroll kembali
       document.body.classList.remove('modal-open');
     }
 
-    // Cleanup function untuk memastikan class dihapus saat komponen di-unmount
     return () => {
       document.body.classList.remove('modal-open');
     };
-  }, [isPopupVisible]); // Efek ini akan berjalan setiap kali nilai isPopupVisible berubah
+  }, [isPopupVisible]);
   
   // --- Fungsi untuk menutup pop-up ---
   const handleClosePopup = () => {
@@ -181,7 +178,7 @@ const Home = () => {
           )}
         </div>
         
-        {/* Load More Button - hanya tampil jika filter 'all' dan masih ada produk */}
+        {/* Load More Button */}
         {activeFilter === 'all' && displayedProducts.length < products.length && (
           <div className="load-more-container">
             <button 
@@ -193,6 +190,49 @@ const Home = () => {
           </div>
         )}
       </section>
+
+      {/* ======================================= */}
+      {/* ===   Bagian Video (IMPROVED)       === */}
+      {/* ======================================= */}
+      <section className="video-section">
+        <h2>Our Style in Motion</h2>
+        <div className="video-grid">
+          <div className="video-item">
+            <iframe 
+              src="https://www.instagram.com/reel/DJ_BZbpSHjy/embed/?utm_source=ig_embed&amp;utm_campaign=loading" 
+              frameBorder="0" 
+              allowFullScreen 
+              scrolling="no" 
+              allowTransparency="true"
+              title="Instagram Reel 1"
+              loading="lazy">
+            </iframe>
+          </div>
+          <div className="video-item">
+            <iframe 
+              src="https://www.instagram.com/reel/DKTr9wry4xK/embed/?utm_source=ig_embed&amp;utm_campaign=loading" 
+              frameBorder="0" 
+              allowFullScreen 
+              scrolling="no" 
+              allowTransparency="true"
+              title="Instagram Reel 2"
+              loading="lazy">
+            </iframe>
+          </div>
+          <div className="video-item">
+            <iframe 
+              src="https://www.instagram.com/reel/DMLDVSfyYdo/embed/?utm_source=ig_embed&amp;utm_campaign=loading" 
+              frameBorder="0" 
+              allowFullScreen 
+              scrolling="no" 
+              allowTransparency="true"
+              title="Instagram Reel 3"
+              loading="lazy">
+            </iframe>
+          </div>
+        </div>
+      </section>
+
     </div>
   );
 };
