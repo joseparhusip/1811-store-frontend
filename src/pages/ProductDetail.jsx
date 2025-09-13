@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { products } from '../data/products';
-import { useCart } from '../context/CartContext'; // --- 1. TAMBAHAN: Impor useCart ---
+import { useCart } from '../context/CartContext';
 import '../css/ProductDetail.css';
 
 const ProductDetail = () => {
@@ -11,9 +11,69 @@ const ProductDetail = () => {
   const [selectedSize, setSelectedSize] = useState('M');
   const [selectedColor, setSelectedColor] = useState('WHITE');
   
-  // --- 2. TAMBAHAN: State untuk pop-up dan akses ke fungsi addToCart ---
   const { addToCart } = useCart();
   const [showPopup, setShowPopup] = useState(false);
+  
+  // State untuk review system
+  const [reviews, setReviews] = useState([
+    {
+      id: 1,
+      name: "Ahmad Rizky",
+      rating: 5,
+      comment: "Kualitas bahan sangat bagus! Nyaman dipakai dan sesuai dengan deskripsi. Highly recommended!",
+      date: "2024-03-15",
+      verified: true
+    },
+    {
+      id: 2,
+      name: "Sarah Putri",
+      rating: 4,
+      comment: "Bahannya adem dan tidak mudah kusut. Cuma pengirimannya agak lama, tapi overall puas banget!",
+      date: "2024-03-10",
+      verified: true
+    },
+    {
+      id: 3,
+      name: "Budi Santoso",
+      rating: 5,
+      comment: "Ini pembelian kedua saya, kualitas konsisten bagus. Ukurannya pas dan warnanya tidak luntur.",
+      date: "2024-03-05",
+      verified: false
+    },
+    {
+      id: 4,
+      name: "Maya Sari",
+      rating: 3,
+      comment: "Bahannya oke, tapi warnanya agak berbeda dari foto. Mungkin karena lighting kamera ya.",
+      date: "2024-02-28",
+      verified: true
+    },
+    {
+      id: 5,
+      name: "Eko Prasetyo",
+      rating: 4,
+      comment: "Good quality for the price! Fit sesuai size chart, recommended untuk daily wear.",
+      date: "2024-02-20",
+      verified: true
+    },
+    {
+      id: 6,
+      name: "Rina Marlina",
+      rating: 5,
+      comment: "Suka banget sama kualitasnya! Udah dicuci berkali-kali masih bagus. Will order again!",
+      date: "2024-02-15",
+      verified: true
+    }
+  ]);
+
+  const [newReview, setNewReview] = useState({
+    name: '',
+    rating: 5,
+    comment: ''
+  });
+
+  const [filterRating, setFilterRating] = useState(0); // 0 = semua rating
+  const [showReviewForm, setShowReviewForm] = useState(false);
 
   const availableSizes = ['S', 'M', 'L', 'XL'];
   const availableColors = ['BLACK', 'WHITE'];
@@ -35,7 +95,6 @@ const ProductDetail = () => {
     }).format(price);
   };
   
-  // --- 3. TAMBAHAN: Fungsi untuk handle klik "Add to Cart" ---
   const handleAddToCart = () => {
     const productToAdd = {
       ...product,
@@ -44,21 +103,81 @@ const ProductDetail = () => {
     };
     addToCart(productToAdd);
     setShowPopup(true);
-    // Sembunyikan pop-up setelah 3 detik
     setTimeout(() => {
       setShowPopup(false);
     }, 3000);
   };
 
+  // Fungsi untuk menghitung rata-rata rating
+  const calculateAverageRating = () => {
+    if (reviews.length === 0) return 0;
+    const sum = reviews.reduce((acc, review) => acc + review.rating, 0);
+    return (sum / reviews.length).toFixed(1);
+  };
+
+  // Fungsi untuk menghitung jumlah review per rating
+  const getRatingCount = (rating) => {
+    return reviews.filter(review => review.rating === rating).length;
+  };
+
+  // Filter reviews berdasarkan rating
+  const filteredReviews = filterRating === 0 
+    ? reviews 
+    : reviews.filter(review => review.rating === filterRating);
+
+  // Render stars
+  const renderStars = (rating, interactive = false, onStarClick = null) => {
+    return Array.from({ length: 5 }, (_, index) => (
+      <span
+        key={index}
+        className={`star ${index < rating ? 'filled' : ''} ${interactive ? 'interactive' : ''}`}
+        onClick={interactive && onStarClick ? () => onStarClick(index + 1) : undefined}
+      >
+        ★
+      </span>
+    ));
+  };
+
+  // Handle submit review
+  const handleSubmitReview = (e) => {
+    e.preventDefault();
+    if (newReview.name.trim() && newReview.comment.trim()) {
+      const review = {
+        id: reviews.length + 1,
+        name: newReview.name,
+        rating: newReview.rating,
+        comment: newReview.comment,
+        date: new Date().toISOString().split('T')[0],
+        verified: false
+      };
+      setReviews([review, ...reviews]);
+      setNewReview({ name: '', rating: 5, comment: '' });
+    }
+  };
+
   return (
-    <> {/* Gunakan Fragment untuk membungkus halaman dan pop-up */}
+    <>
       <main className="product-detail-container">
         <div className="product-image-section">
           <img src={product.image} alt={product.name} className="main-product-image" />
         </div>
+        
         <div className="product-info-section">
           <h1 className="product-title">{product.name}</h1>
           <p className="product-price">{formatPrice(product.price)}</p>
+          
+          {/* Rating Summary */}
+          <div className="rating-summary">
+            <div className="rating-display">
+              <div className="stars-display">
+                {renderStars(Math.round(calculateAverageRating()))}
+              </div>
+              <span className="rating-text">
+                {calculateAverageRating()} ({reviews.length} reviews)
+              </span>
+            </div>
+          </div>
+
           <p className="product-description">
             T-shirt 1811 yang memiliki bahan baju yang lembut dan nyaman untuk dipakai kemana saja.
           </p>
@@ -94,14 +213,138 @@ const ProductDetail = () => {
             </div>
           </div>
           
-          {/* --- 4. MODIFIKASI: Panggil handleAddToCart saat tombol diklik --- */}
           <button className="add-to-cart-button" onClick={handleAddToCart}>
             ADD TO CART
           </button>
         </div>
       </main>
 
-      {/* --- 5. TAMBAHAN: JSX untuk Pop-up --- */}
+      {/* Reviews Section */}
+      <section className="reviews-section">
+        <div className="reviews-container">
+          <div className="reviews-header">
+            <h2>Customer Reviews</h2>
+          </div>
+
+          {/* Rating Breakdown */}
+          <div className="rating-breakdown">
+            <div className="rating-stats">
+              <div className="average-rating">
+                <span className="big-rating">{calculateAverageRating()}</span>
+                <div className="stars-large">
+                  {renderStars(Math.round(calculateAverageRating()))}
+                </div>
+                <span className="total-reviews">{reviews.length} reviews</span>
+              </div>
+              <div className="rating-bars">
+                {[5, 4, 3, 2, 1].map(rating => (
+                  <div key={rating} className="rating-bar-item">
+                    <span className="rating-number">{rating}</span>
+                    <span className="star">★</span>
+                    <div className="progress-bar">
+                      <div 
+                        className="progress-fill"
+                        style={{ 
+                          width: `${reviews.length > 0 ? (getRatingCount(rating) / reviews.length) * 100 : 0}%` 
+                        }}
+                      ></div>
+                    </div>
+                    <span className="rating-count">({getRatingCount(rating)})</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Review Form */}
+          {showReviewForm && (
+            <form className="review-form" onSubmit={handleSubmitReview}>
+              <h3>Write Your Review</h3>
+              <div className="form-group">
+                <label>Your Name</label>
+                <input
+                  type="text"
+                  value={newReview.name}
+                  onChange={(e) => setNewReview({...newReview, name: e.target.value})}
+                  placeholder="Enter your name"
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>Rating</label>
+                <div className="rating-input">
+                  {renderStars(newReview.rating, true, (rating) => 
+                    setNewReview({...newReview, rating})
+                  )}
+                </div>
+              </div>
+              <div className="form-group">
+                <label>Your Review</label>
+                <textarea
+                  value={newReview.comment}
+                  onChange={(e) => setNewReview({...newReview, comment: e.target.value})}
+                  placeholder="Share your experience with this product..."
+                  rows="4"
+                  required
+                />
+              </div>
+              <button type="submit" className="submit-review-btn">
+                Submit Review
+              </button>
+            </form>
+          )}
+
+          {/* Filter Buttons */}
+          <div className="filter-buttons">
+            <button 
+              className={`filter-btn ${filterRating === 0 ? 'active' : ''}`}
+              onClick={() => setFilterRating(0)}
+            >
+              All ({reviews.length})
+            </button>
+            {[5, 4, 3, 2, 1].map(rating => (
+              getRatingCount(rating) > 0 && (
+                <button
+                  key={rating}
+                  className={`filter-btn ${filterRating === rating ? 'active' : ''}`}
+                  onClick={() => setFilterRating(rating)}
+                >
+                  {rating} ★ ({getRatingCount(rating)})
+                </button>
+              )
+            ))}
+          </div>
+
+          {/* Reviews List */}
+          <div className="reviews-list">
+            {filteredReviews.map((review) => (
+              <div key={review.id} className="review-item">
+                <div className="review-header">
+                  <div className="reviewer-info">
+                    <span className="reviewer-name">
+                      {review.name}
+                      {review.verified && <span className="verified-badge">✓ Verified</span>}
+                    </span>
+                    <span className="review-date">{review.date}</span>
+                  </div>
+                  <div className="review-rating">
+                    {renderStars(review.rating)}
+                  </div>
+                </div>
+                <p className="review-comment">{review.comment}</p>
+              </div>
+            ))}
+          </div>
+
+          {filteredReviews.length === 0 && (
+            <div className="no-reviews">
+              <p>No reviews found for the selected rating.</p>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Popup */}
       {showPopup && (
         <div className="popup-overlay">
           <div className="popup-content">
