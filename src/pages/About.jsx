@@ -1,8 +1,9 @@
 // src/pages/About.jsx
 
-import React from 'react';
+import React, { useState, useEffect } from 'react'; // <-- Tambahkan useState & useEffect
 import '../css/About.css';
-import { useLanguage } from '../context/LanguageContext'; // Import language context
+import { useLanguage } from '../context/LanguageContext';
+import LoadingSpinner from '../components/common/LoadingSpinner'; // <-- BARU: Impor spinner
 
 // Impor gambar yang akan digunakan
 import aboutHeaderImage from '../assets/img/img-about.png';
@@ -10,7 +11,26 @@ import storyImage1 from '../assets/img/img-product/T-Shirt From 1811-3.png';
 import storyImage2 from '../assets/img/img-product/T-Shirt From 1811-1.png';
 
 const About = () => {
-  const { t } = useLanguage(); // Gunakan language context
+  const { t } = useLanguage();
+
+  // --- BARU: State untuk mengelola status loading ---
+  const [isLoading, setIsLoading] = useState(true);
+
+  // --- BARU: useEffect untuk simulasi proses loading ---
+  useEffect(() => {
+    // Simulasi loading selama 1.5 detik
+    const loadingTimer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
+
+    // Cleanup function
+    return () => clearTimeout(loadingTimer);
+  }, []); // Dijalankan sekali saat komponen mount
+
+  // --- BARU: Tampilkan spinner jika isLoading true ---
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="about-container">

@@ -1,12 +1,21 @@
-// src/pages/Design.jsx (Versi Diperbarui dengan ErrorBoundary)
+// src/pages/Design.jsx
 
-import React, { useState, Suspense } from 'react';
+import React, { useState, Suspense, useEffect } from 'react'; // <-- MODIFIKASI
 import '../css/Design.css';
 import TshirtCanvas from '../components/common/TshirtCanvas';
-// 1. IMPORT ERROR BOUNDARY YANG BARU DIBUAT
 import ErrorBoundary from '../components/common/ErrorBoundary';
+import LoadingSpinner from '../components/common/LoadingSpinner'; // <-- BARU
 
 const Design = () => {
+  // --- BARU: State dan Effect untuk loading ---
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 2000); // Butuh waktu lebih untuk kanvas
+    return () => clearTimeout(timer);
+  }, []);
+  // ------------------------------------------
+  
   const [shirtColor, setShirtColor] = useState('#ffffff');
   const [logo, setLogo] = useState(null);
   const fileInputRef = React.useRef(null);
@@ -37,10 +46,15 @@ const Design = () => {
   };
   const handleSave = () => alert("Fitur 'Simpan Gambar' belum diimplementasikan untuk 3D.");
 
+  // --- BARU: Render loading spinner ---
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+  // ---------------------------------
+
   return (
     <div className="design-container">
       <div className="control-panel">
-        {/* Panel Kontrol tidak ada perubahan */}
         <div className="panel-header">
           <span className="s-icon">S</span>
           <div>
@@ -81,7 +95,6 @@ const Design = () => {
       </div>
 
       <div className="tshirt-canvas-area">
-        {/* 2. BUNGKUS SUSPENSE DENGAN ERROR BOUNDARY */}
         <ErrorBoundary>
           <Suspense fallback={<div className="canvas-fallback">Memuat Model 3D...</div>}>
             <TshirtCanvas 

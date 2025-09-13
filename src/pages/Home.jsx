@@ -1,10 +1,13 @@
 // src/pages/Home.jsx
 
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'; // Pastikan Link di-import
+import { Link } from 'react-router-dom';
 import '../css/Home.css';
 import AdPopup from '../components/common/AdPopup';
-import { useLanguage } from '../context/LanguageContext'; // Import language context
+import { useLanguage } from '../context/LanguageContext';
+
+// --- Impor komponen LoadingSpinner ---
+import LoadingSpinner from '../components/common/LoadingSpinner';
 
 // --- Mengimpor gambar statis ---
 import imgShirtBlack from '../assets/img/img-shirt-black.png';
@@ -24,13 +27,28 @@ const formatPrice = (price) => {
 };
 
 const Home = () => {
-  const { t } = useLanguage(); // Gunakan language context
+  const { t } = useLanguage();
   
+  // --- State untuk mengelola status loading ---
+  const [isLoading, setIsLoading] = useState(true);
+
   // --- State untuk filter dan produk yang ditampilkan ---
   const [activeFilter, setActiveFilter] = useState('all');
   const [displayedProducts, setDisplayedProducts] = useState(products.slice(0, 6));
   const [showLoginSuccess, setShowLoginSuccess] = useState(false);
   const [isPopupVisible, setIsPopupVisible] = useState(true);
+
+  // --- useEffect untuk simulasi proses loading ---
+  useEffect(() => {
+    // Timer ini mensimulasikan pengambilan data dari server.
+    // Durasi 2500ms (2.5 detik) untuk halaman utama.
+    const loadingTimer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2500);
+
+    // Cleanup function untuk membersihkan timer
+    return () => clearTimeout(loadingTimer);
+  }, []); // Array dependensi kosong agar useEffect hanya berjalan sekali
 
   // --- useEffect untuk memeriksa status login dan menampilkan notifikasi ---
   useEffect(() => {
@@ -38,27 +56,24 @@ const Home = () => {
     if (justLoggedIn === 'true') {
       setShowLoginSuccess(true);
       localStorage.removeItem('justLoggedIn');
-
       const timer = setTimeout(() => {
         setShowLoginSuccess(false);
       }, 3000);
-
       return () => clearTimeout(timer);
     }
   }, []);
 
-  // --- useEffect untuk mengunci scroll body ---
+  // --- useEffect untuk mengunci scroll body saat pop-up aktif ---
   useEffect(() => {
-    if (isPopupVisible) {
+    if (isPopupVisible && !isLoading) {
       document.body.classList.add('modal-open');
     } else {
       document.body.classList.remove('modal-open');
     }
-
     return () => {
       document.body.classList.remove('modal-open');
     };
-  }, [isPopupVisible]);
+  }, [isPopupVisible, isLoading]);
   
   // --- Fungsi untuk menutup pop-up ---
   const handleClosePopup = () => {
@@ -68,7 +83,6 @@ const Home = () => {
   // --- Fungsi untuk menangani klik pada filter ---
   const handleFilterChange = (filter) => {
     setActiveFilter(filter);
-    
     if (filter === 'all') {
       setDisplayedProducts(products.slice(0, 6));
     } else {
@@ -87,7 +101,13 @@ const Home = () => {
       setDisplayedProducts(prev => [...prev, ...nextProducts]);
     }
   };
+  
+  // --- Tampilkan spinner jika isLoading true ---
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
+  // Jika loading selesai, tampilkan konten halaman seperti biasa
   return (
     <div className="home-container">
       {/* Render komponen pop-up */}
@@ -106,10 +126,8 @@ const Home = () => {
         <div className="hero-content">
           <p>{t('home.menCollection')}</p>
           <h1>{t('home.newArrivals')}</h1>
-          {/* Tombol Shop Now bisa tetap sebagai button atau Link jika punya tujuan */}
           <Link to="/shop" className="btn btn-shop-now">{t('home.shopNow')}</Link>
         </div>
-        {/* 👇 PERUBAHAN DI SINI: Menggunakan Link bukan button 👇 */}
         <Link to="/custom-shirt" className="btn btn-design">{t('home.designTshirt')}</Link>
       </header>
 
@@ -133,11 +151,9 @@ const Home = () => {
       <section className="product-overview">
         <div className="product-header">
             <h2>{t('home.productOverview')}</h2>
-            {/* 👇 PERUBAHAN DI SINI: Menggunakan Link bukan button 👇 */}
             <Link to="/custom-shirt" className="btn btn-design-alt">{t('home.designTshirt')}</Link>
         </div>
 
-        {/* Filter Buttons dengan Logic */}
         <div className="product-filters">
           <button 
             onClick={() => handleFilterChange('all')} 
@@ -159,38 +175,27 @@ const Home = () => {
           </button>
         </div>
 
-        {/* Render produk dari state 'displayedProducts' */}
         <div className="product-grid">
-          {displayedProducts.length > 0 ? (
-            displayedProducts.map(product => (
-              <Link to={`/product/${product.id}`} key={product.id} className="product-card-link">
-                <div className="product-card">
-                  <img src={product.image} alt={product.name} className="product-image" />
-                  <div className="product-info">
-                    <div>
-                      <h3 className="product-name">{product.name}</h3>
-                      <p className="product-price">{formatPrice(product.price)}</p>
-                      <p className="product-category">{t('home.category')}: {product.category}</p>
-                    </div>
-                    <button className="add-to-cart-btn">🛒</button>
+          {displayedProducts.map(product => (
+            <Link to={`/product/${product.id}`} key={product.id} className="product-card-link">
+              <div className="product-card">
+                <img src={product.image} alt={product.name} className="product-image" />
+                <div className="product-info">
+                  <div>
+                    <h3 className="product-name">{product.name}</h3>
+                    <p className="product-price">{formatPrice(product.price)}</p>
+                    <p className="product-category">{t('home.category')}: {product.category}</p>
                   </div>
+                  <button className="add-to-cart-btn">🛒</button>
                 </div>
-              </Link>
-            ))
-          ) : (
-            <div className="no-products">
-              <p>{t('home.noProducts')}</p>
-            </div>
-          )}
+              </div>
+            </Link>
+          ))}
         </div>
         
-        {/* Load More Button */}
         {activeFilter === 'all' && displayedProducts.length < products.length && (
           <div className="load-more-container">
-            <button 
-              className="btn btn-load-more" 
-              onClick={handleLoadMore}
-            >
+            <button className="btn btn-load-more" onClick={handleLoadMore}>
               {t('home.loadMore')}
             </button>
           </div>
@@ -204,39 +209,26 @@ const Home = () => {
           <div className="video-item">
             <iframe 
               src="https://www.instagram.com/reel/DJ_BZbpSHjy/embed/?utm_source=ig_embed&amp;utm_campaign=loading" 
-              frameBorder="0" 
-              allowFullScreen 
-              scrolling="no" 
-              allowTransparency="true"
-              title="Instagram Reel 1"
-              loading="lazy">
+              frameBorder="0" allowFullScreen scrolling="no" allowTransparency="true"
+              title="Instagram Reel 1" loading="lazy">
             </iframe>
           </div>
           <div className="video-item">
             <iframe 
               src="https://www.instagram.com/reel/DKTr9wry4xK/embed/?utm_source=ig_embed&amp;utm_campaign=loading" 
-              frameBorder="0" 
-              allowFullScreen 
-              scrolling="no" 
-              allowTransparency="true"
-              title="Instagram Reel 2"
-              loading="lazy">
+              frameBorder="0" allowFullScreen scrolling="no" allowTransparency="true"
+              title="Instagram Reel 2" loading="lazy">
             </iframe>
           </div>
           <div className="video-item">
             <iframe 
               src="https://www.instagram.com/reel/DMLDVSfyYdo/embed/?utm_source=ig_embed&amp;utm_campaign=loading" 
-              frameBorder="0" 
-              allowFullScreen 
-              scrolling="no" 
-              allowTransparency="true"
-              title="Instagram Reel 3"
-              loading="lazy">
+              frameBorder="0" allowFullScreen scrolling="no" allowTransparency="true"
+              title="Instagram Reel 3" loading="lazy">
             </iframe>
           </div>
         </div>
       </section>
-
     </div>
   );
 };

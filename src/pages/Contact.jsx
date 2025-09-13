@@ -1,20 +1,39 @@
 // src/pages/Contact.jsx
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react'; // <-- Tambahkan useEffect
 import '../css/Contact.css';
-import { useLanguage } from '../context/LanguageContext'; // Import language context
+import { useLanguage } from '../context/LanguageContext';
 import contactHeaderImage from '../assets/img/img-contact.png';
+import LoadingSpinner from '../components/common/LoadingSpinner'; // <-- BARU: Impor spinner
 
 const Contact = () => {
-  const { t } = useLanguage(); // Gunakan language context
+  const { t } = useLanguage();
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  // --- BARU: State untuk mengelola status loading ---
+  const [isLoading, setIsLoading] = useState(true);
+
+  // --- BARU: useEffect untuk simulasi proses loading ---
+  useEffect(() => {
+    // Simulasi loading selama 1.5 detik
+    const loadingTimer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
+
+    // Cleanup function
+    return () => clearTimeout(loadingTimer);
+  }, []); // Dijalankan sekali saat komponen mount
 
   // Fungsi untuk menangani event submit form
   const handleSubmit = (event) => {
-    event.preventDefault(); // Mencegah halaman reload saat form disubmit
-    // Di sini Anda bisa menambahkan logika pengiriman data ke server jika perlu
-    setIsSubmitted(true); // Ubah state menjadi true
+    event.preventDefault();
+    setIsSubmitted(true);
   };
+
+  // --- BARU: Tampilkan spinner jika isLoading true ---
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="contact-page">
@@ -26,19 +45,16 @@ const Contact = () => {
         <div className="contact-box form-box">
           {/* Tampilkan pesan atau form berdasarkan state isSubmitted */}
           {isSubmitted ? (
-            // Jika form sudah disubmit, tampilkan pesan ini
             <div className="thank-you-message">
-              <h2>{t('contact.thankYou')} 🙏</h2>
+              <h2>{t('contact.thankYou')} ✅</h2>
               <p>{t('contact.messageSuccess')}</p>
             </div>
           ) : (
-            // Jika form belum disubmit, tampilkan form ini
             <>
               <h2>{t('contact.sendMessage')}</h2>
-              {/* Panggil fungsi handleSubmit saat form disubmit */}
               <form className="contact-form" onSubmit={handleSubmit}>
                 <div className="input-group">
-                  <span className="icon">✉️</span>
+                  <span className="icon">📧</span>
                   <input 
                     type="email" 
                     placeholder={t('contact.yourEmail')} 
@@ -78,7 +94,7 @@ const Contact = () => {
             </div>
           </div>
           <div className="info-item">
-            <span className="icon">📧</span>
+            <span className="icon">✉️</span>
             <div className="info-text">
               <h3>{t('contact.saleSupport')}</h3>
               <p>1811studioproduction@gmail.com</p>

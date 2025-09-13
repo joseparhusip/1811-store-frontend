@@ -1,14 +1,29 @@
 // src/pages/Shop.jsx
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react'; // <-- Tambahkan useEffect
 import ProductCard from '../components/shop/ProductCard';
 import { products } from '../data/products';
 import '../css/Shop.css';
+import LoadingSpinner from '../components/common/LoadingSpinner'; // <-- BARU: Impor spinner
 
 const Shop = () => {
+  // --- BARU: State untuk mengelola status loading ---
+  const [isLoading, setIsLoading] = useState(true);
+  
   // State untuk filter dan produk yang ditampilkan
   const [activeFilter, setActiveFilter] = useState('all');
   const [filteredProducts, setFilteredProducts] = useState(products);
+
+  // --- BARU: useEffect untuk simulasi proses loading ---
+  useEffect(() => {
+    // Simulasi loading selama 1.5 detik
+    const loadingTimer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
+
+    // Cleanup function
+    return () => clearTimeout(loadingTimer);
+  }, []); // Dijalankan sekali saat komponen mount
 
   // Fungsi untuk menangani perubahan filter
   const handleFilterChange = (filter) => {
@@ -23,6 +38,11 @@ const Shop = () => {
       setFilteredProducts(filtered);
     }
   };
+
+  // --- BARU: Tampilkan spinner jika isLoading true ---
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <main className="shop-container">

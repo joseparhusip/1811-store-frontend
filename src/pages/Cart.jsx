@@ -1,15 +1,24 @@
 // src/pages/Cart.jsx
 
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // 1. Impor useNavigate
+import React, { useState, useEffect } from 'react'; // <-- MODIFIKASI
+import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import '../css/Cart.css';
+import LoadingSpinner from '../components/common/LoadingSpinner'; // <-- BARU
 
 const Cart = () => {
   const { cartItems, updateQuantity, removeFromCart } = useCart();
-  const navigate = useNavigate(); // 2. Inisialisasi hook navigasi
+  const navigate = useNavigate();
 
-  // 3. Buat fungsi untuk menangani checkout
+  // --- BARU: State dan Effect untuk loading ---
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 1000); // Loading lebih cepat
+    return () => clearTimeout(timer);
+  }, []);
+  // ------------------------------------------
+
   const handleCheckout = () => {
     navigate('/checkout');
   };
@@ -26,6 +35,12 @@ const Cart = () => {
     (total, item) => total + item.price * item.quantity,
     0
   );
+
+  // --- BARU: Render loading spinner ---
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+  // ---------------------------------
 
   if (cartItems.length === 0) {
     return (
@@ -94,7 +109,6 @@ const Cart = () => {
           <span>Total</span>
           <span>{formatPrice(subtotal)}</span>
         </div>
-        {/* 4. Tambahkan onClick ke tombol checkout */}
         <button className="checkout-btn" onClick={handleCheckout}>
           CHECKOUT
         </button>

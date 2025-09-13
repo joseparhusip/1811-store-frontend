@@ -1,13 +1,23 @@
 // src/pages/Checkout.jsx
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react'; // <-- MODIFIKASI
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
-import '../css/Checkout.css'; 
+import '../css/Checkout.css';
+import LoadingSpinner from '../components/common/LoadingSpinner'; // <-- BARU
 
 const Checkout = () => {
   const { cartItems } = useCart();
   const navigate = useNavigate();
+
+  // --- BARU: State dan Effect untuk loading ---
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 1500);
+    return () => clearTimeout(timer);
+  }, []);
+  // ------------------------------------------
 
   const [formData, setFormData] = useState({
     nama: '', email: '', provinsi: '', kota: '', kecamatan: '',
@@ -31,7 +41,6 @@ const Checkout = () => {
   const biayaLain = 10000;
   const total = subtotal + ongkosKirim + biayaLain;
 
-  // --- PERUBAHAN UTAMA DI FUNGSI INI ---
   const handlePlaceOrder = (e) => {
     e.preventDefault();
     if (cartItems.length === 0) {
@@ -46,13 +55,17 @@ const Checkout = () => {
       totalPrice: total,
     };
     
-    // Arahkan ke halaman pembayaran dengan membawa detail pesanan
     navigate('/payment', { state: { orderDetails } });
   };
 
+  // --- BARU: Render loading spinner ---
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+  // ---------------------------------
+
   return (
     <div className="checkout-container">
-      {/* ... sisa JSX tidak berubah ... */}
        <div className="checkout-header">
         <button onClick={() => navigate('/cart')} className="back-button">&#x2190;</button>
       </div>
