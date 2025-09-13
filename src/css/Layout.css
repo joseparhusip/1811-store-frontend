@@ -115,6 +115,7 @@ ul {
 }
 
 .nav-link {
+  position: relative; /* Diperlukan untuk positioning pseudo-element */
   font-weight: 500;
   font-size: 0.95rem;
   color: #333;
@@ -125,6 +126,33 @@ ul {
 .nav-link:hover {
   color: #666;
 }
+
+/* === PERUBAHAN DIMULAI: EFEK GARIS BAWAH UNTUK NAV-LINK === */
+.nav-link::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: #333;
+  bottom: 0;
+  left: 0;
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+.nav-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+/* Style untuk link yang sedang aktif */
+.nav-link.active::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+/* === PERUBAHAN SELESAI === */
+
 
 .nav-right-actions {
   display: flex;

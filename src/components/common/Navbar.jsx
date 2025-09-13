@@ -1,7 +1,8 @@
 // src/components/common/Navbar.jsx
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+// === PERUBAHAN: Mengimpor NavLink dari react-router-dom ===
+import { Link, NavLink } from 'react-router-dom';
 import '../../css/Layout.css';
 import '../../css/Language.css'; // Import the language CSS
 import logoImage from '../../assets/img/logo-1811-store.png';
@@ -134,17 +135,18 @@ const Navbar = () => {
           </Link>
 
           <ul className={menuOpen ? 'nav-menu active' : 'nav-menu'}>
+            {/* === PERUBAHAN: Menggunakan NavLink bukan Link === */}
             <li className="nav-item">
-              <Link to="/" className="nav-link" onClick={closeAllMenus}>{t('navbar.home')}</Link>
+              <NavLink to="/" className="nav-link" onClick={closeAllMenus}>{t('navbar.home')}</NavLink>
             </li>
             <li className="nav-item">
-              <Link to="/shop" className="nav-link" onClick={closeAllMenus}>{t('navbar.shop')}</Link>
+              <NavLink to="/shop" className="nav-link" onClick={closeAllMenus}>{t('navbar.shop')}</NavLink>
             </li>
             <li className="nav-item">
-              <Link to="/about" className="nav-link" onClick={closeAllMenus}>{t('navbar.about')}</Link>
+              <NavLink to="/about" className="nav-link" onClick={closeAllMenus}>{t('navbar.about')}</NavLink>
             </li>
             <li className="nav-item">
-              <Link to="/contact" className="nav-link" onClick={closeAllMenus}>{t('navbar.contact')}</Link>
+              <NavLink to="/contact" className="nav-link" onClick={closeAllMenus}>{t('navbar.contact')}</NavLink>
             </li>
           </ul>
           
