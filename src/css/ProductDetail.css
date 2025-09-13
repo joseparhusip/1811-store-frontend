@@ -539,9 +539,21 @@
 }
 
 .popup-icon {
-  font-size: 48px;
-  margin-bottom: 20px;
+  /* ======================== */
+  /* PERBAIKAN DI SINI */
+  background-color: #1a1a1a; /* Membuat background menjadi hitam */
+  color: #fff;               /* Membuat ikon keranjang di dalamnya menjadi putih */
+  width: 70px;                /* Menentukan lebar */
+  height: 70px;               /* Menentukan tinggi */
+  border-radius: 50%;         /* Membuatnya menjadi lingkaran */
+  display: flex;              /* Menggunakan flexbox untuk centering */
+  align-items: center;        /* Menengahkan ikon secara vertikal */
+  justify-content: center;    /* Menengahkan ikon secara horizontal */
+  /* ======================== */
+  font-size: 40px; /* Ukuran ikon keranjang */
+  margin: 0 auto 20px; /* Menengahkan dan memberi jarak bawah */
 }
+
 
 /* Responsive Design */
 
@@ -645,7 +657,9 @@
   }
 
   .popup-icon {
-    font-size: 40px;
+    font-size: 38px;
+    width: 65px;
+    height: 65px;
   }
 }
 
@@ -751,6 +765,8 @@
   .popup-icon {
     font-size: 36px;
     margin-bottom: 15px;
+    width: 60px;
+    height: 60px;
   }
 }
 
@@ -838,7 +854,7 @@
   }
 
   .form-group input,
-  .form-group textarea {
+  .form-grop textarea {
     background-color: #2a2a2a;
     border-color: #444;
     color: #e0e0e0;

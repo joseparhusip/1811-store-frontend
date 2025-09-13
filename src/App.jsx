@@ -4,7 +4,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext.jsx';
-import { LanguageProvider } from './context/LanguageContext'; // Import LanguageProvider
+import { LanguageProvider } from './context/LanguageContext';
 
 // Impor Komponen & Halaman
 import Navbar from './components/common/Navbar';
@@ -19,6 +19,8 @@ import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import Checkout from './pages/Checkout';
 import Payment from './pages/Payment';
+import Design from './pages/Design';
+import EditProfile from './pages/EditProfile'; // <-- 1. IMPORT THE NEW PAGE
 
 import './index.css';
 
@@ -43,6 +45,8 @@ const AppLayout = () => {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/payment" element={<Payment />} />
+          <Route path="/custom-shirt" element={<Design />} />
+          <Route path="/profile" element={<EditProfile />} /> {/* <-- 2. ADD THE NEW ROUTE */}
         </Routes>
       </main>
       {showLayout && <Footer />}
@@ -53,7 +57,7 @@ const AppLayout = () => {
 function App() {
   return (
     <Router>
-      <LanguageProvider> {/* Wrap dengan LanguageProvider */}
+      <LanguageProvider>
         <AuthProvider>
           <CartProvider>
             <AppLayout />

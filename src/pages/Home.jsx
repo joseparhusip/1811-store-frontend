@@ -1,7 +1,7 @@
 // src/pages/Home.jsx
 
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'; // Pastikan Link di-import
 import '../css/Home.css';
 import AdPopup from '../components/common/AdPopup';
 import { useLanguage } from '../context/LanguageContext'; // Import language context
@@ -106,9 +106,11 @@ const Home = () => {
         <div className="hero-content">
           <p>{t('home.menCollection')}</p>
           <h1>{t('home.newArrivals')}</h1>
-          <button className="btn btn-shop-now">{t('home.shopNow')}</button>
+          {/* Tombol Shop Now bisa tetap sebagai button atau Link jika punya tujuan */}
+          <Link to="/shop" className="btn btn-shop-now">{t('home.shopNow')}</Link>
         </div>
-        <button className="btn btn-design">{t('home.designTshirt')}</button>
+        {/* 👇 PERUBAHAN DI SINI: Menggunakan Link bukan button 👇 */}
+        <Link to="/custom-shirt" className="btn btn-design">{t('home.designTshirt')}</Link>
       </header>
 
       {/* Bagian Kategori */}
@@ -131,7 +133,8 @@ const Home = () => {
       <section className="product-overview">
         <div className="product-header">
             <h2>{t('home.productOverview')}</h2>
-            <button className="btn btn-design-alt">{t('home.designTshirt')}</button>
+            {/* 👇 PERUBAHAN DI SINI: Menggunakan Link bukan button 👇 */}
+            <Link to="/custom-shirt" className="btn btn-design-alt">{t('home.designTshirt')}</Link>
         </div>
 
         {/* Filter Buttons dengan Logic */}

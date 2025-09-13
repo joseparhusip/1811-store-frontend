@@ -97,10 +97,15 @@
   color: #8A2BE2;
 }
 
+/* ========================================================== */
+/* === PERBAIKAN UTAMA ADA DI BAGIAN GRID & KARTU PRODUK === */
+/* ========================================================== */
+
 /* --- STYLING UNTUK GRID PRODUK --- */
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  /* PERUBAHAN: Ukuran minimum kartu diperkecil dari 280px menjadi 250px */
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 30px;
   margin-top: 20px;
 }
@@ -129,17 +134,26 @@
 
 .product-image {
   width: 100%;
-  height: 250px;
-  object-fit: cover;
+  /* PERUBAHAN: Tinggi gambar dikurangi dari 250px menjadi 220px */
+  height: 220px;
+  /* PERUBAHAN KUNCI: 'cover' diubah menjadi 'contain' agar gambar tidak terpotong */
+  object-fit: contain;
   border-radius: 8px 8px 0 0;
   margin-bottom: 15px;
-  background-color: #f4f4f4;
+  background-color: #f4f4f4; /* Background untuk mengisi ruang kosong jika ada */
   transition: transform 0.3s ease;
+  padding: 10px; /* Menambahkan sedikit padding agar gambar tidak terlalu mepet */
+  box-sizing: border-box; /* Memastikan padding termasuk dalam ukuran height */
 }
 
 .product-card:hover .product-image {
   transform: scale(1.05);
 }
+
+/* ========================================================== */
+/* === AKHIR DARI PERBAIKAN UTAMA === */
+/* ========================================================== */
+
 
 .product-info {
   display: flex;
@@ -176,32 +190,30 @@
   letter-spacing: 0.5px;
 }
 
+
+/* Styling untuk tombol add to cart */
 .add-to-cart-btn {
-  background: linear-gradient(135deg, #8A2BE2 0%, #7B1FA2 100%);
-  border: none;
+  background: #fff;
+  border: 1px solid #ddd;
   border-radius: 50%;
-  width: 45px;
-  height: 45px;
+  width: 40px;
+  height: 40px;
   font-size: 1.2rem;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(138, 43, 226, 0.3);
-  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: all 0.2s;
   flex-shrink: 0;
-  color: white;
+  color: #333;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .add-to-cart-btn:hover {
-  transform: scale(1.1) rotate(15deg);
-  box-shadow: 0 6px 20px rgba(138, 43, 226, 0.4);
-  background: linear-gradient(135deg, #9C3BD4 0%, #8A2BE2 100%);
+  transform: scale(1.1);
+  background-color: #f0f0f0;
 }
 
-.add-to-cart-btn:active {
-  transform: scale(0.95);
-}
 
 /* --- STYLING UNTUK NO PRODUCTS --- */
 .no-products {
@@ -309,17 +321,15 @@
   }
   
   .shop-filters {
-    /* flex-direction: column; <-- DIHAPUS */
-    gap: 10px; /* Diperkecil */
+    gap: 10px;
     width: 100%;
-    justify-content: center; /* Ditambahkan */
+    justify-content: center;
   }
   
   .filter-link {
-    /* width: 100%; <-- DIHAPUS */
     text-align: center;
-    padding: 8px 10px; /* Diperkecil */
-    font-size: 13px; /* Diperkecil */
+    padding: 8px 10px;
+    font-size: 13px;
   }
   
   .product-grid {
@@ -423,4 +433,3 @@
     box-shadow: 0 0 0 0 rgba(138, 43, 226, 0);
   }
 }
-

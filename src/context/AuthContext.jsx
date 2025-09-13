@@ -24,23 +24,21 @@ export const AuthProvider = ({ children }) => {
 
     // Cek apakah email dan password sesuai
     if (email === validEmail && password === validPassword) {
-      const userToSave = { email: email };
+      // Create a more complete user object
+      const userToSave = { 
+        email: email,
+        name: 'Sarah Connor', // Add default name
+        phone: '081234567890', // Add default phone
+        profilePicture: null, // Start with no picture
+      };
       
-      // Simpan data user di state
       setUser(userToSave); 
-      
-      // Simpan data user di localStorage agar tidak hilang saat refresh
       localStorage.setItem('user', JSON.stringify(userToSave));
-      
-      // Tandai bahwa login baru saja berhasil untuk menampilkan notifikasi
       localStorage.setItem('justLoggedIn', 'true');
-
-      // Redirect ke halaman utama setelah login
       navigate('/'); 
       
-      return true; // Kembalikan true jika berhasil
+      return true;
     } else {
-      // Return false jika gagal - popup akan ditampilkan di komponen Login
       return false;
     }
   };
@@ -48,13 +46,21 @@ export const AuthProvider = ({ children }) => {
   // --- FUNGSI LOGOUT ---
   const logout = () => {
     setUser(null); 
-    localStorage.removeItem('user'); // Hapus user dari localStorage
-    localStorage.removeItem('justLoggedIn'); // Hapus penanda notifikasi
+    localStorage.removeItem('user');
+    localStorage.removeItem('justLoggedIn');
     navigate('/login'); 
   };
   
+  // --- NEW FUNCTION TO UPDATE USER PROFILE ---
+  const updateUser = (newUserData) => {
+    // Merge previous user data with new data
+    const updatedUser = { ...user, ...newUserData };
+    setUser(updatedUser);
+    localStorage.setItem('user', JSON.stringify(updatedUser));
+  };
+  
   // Nilai yang akan disediakan untuk komponen lain
-  const value = { user, login, logout };
+  const value = { user, login, logout, updateUser }; // <-- EXPOSE updateUser HERE
 
   return (
     <AuthContext.Provider value={value}>
