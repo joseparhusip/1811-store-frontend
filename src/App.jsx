@@ -20,14 +20,15 @@ import SignUp from './pages/SignUp';
 import Checkout from './pages/Checkout';
 import Payment from './pages/Payment';
 import Design from './pages/Design';
-import EditProfile from './pages/EditProfile'; // <-- 1. IMPORT THE NEW PAGE
+import EditProfile from './pages/EditProfile';
 
 import './index.css';
 
 // Komponen helper untuk menentukan layout
 const AppLayout = () => {
   const location = useLocation();
-  const noLayoutPages = ['/login', '/signup'];
+  // <-- 1. TAMBAHKAN /custom-shirt KE HALAMAN TANPA LAYOUT
+  const noLayoutPages = ['/login', '/signup', '/custom-shirt']; 
   const showLayout = !noLayoutPages.includes(location.pathname);
 
   return (
@@ -46,7 +47,7 @@ const AppLayout = () => {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/custom-shirt" element={<Design />} />
-          <Route path="/profile" element={<EditProfile />} /> {/* <-- 2. ADD THE NEW ROUTE */}
+          <Route path="/profile" element={<EditProfile />} />
         </Routes>
       </main>
       {showLayout && <Footer />}
