@@ -18,23 +18,28 @@ export const AuthProvider = ({ children }) => {
   const login = (userData) => {
     const { email, password } = userData;
 
-    // Data dummy yang valid
-    const validEmail = 'sarah@gmail.com';
-    const validPassword = 'sarah123';
+    // --- PERUBAHAN: Menggunakan array untuk data dummy yang valid ---
+    const validUsers = [
+      { email: 'sarah@gmail.com', password: 'sarah123', name: 'Sarah Connor', phone: '081234567890' },
+      { email: 'test@gmail.com', password: 'test123', name: 'Test User', phone: '081111111111' },
+      { email: 'contoh@gmail.com', password: 'contoh123', name: 'Contoh Akun', phone: '082222222222' }
+    ];
 
-    // Cek apakah email dan password sesuai
-    if (email === validEmail && password === validPassword) {
-      // Create a more complete user object
+    // Cek apakah email dan password sesuai dengan salah satu data di array
+    const foundUser = validUsers.find(u => u.email === email && u.password === password);
+
+    if (foundUser) {
+      // Buat objek pengguna untuk disimpan, tanpa password
       const userToSave = { 
-        email: email,
-        name: 'Sarah Connor', // Add default name
-        phone: '081234567890', // Add default phone
-        profilePicture: null, // Start with no picture
+        email: foundUser.email,
+        name: foundUser.name,
+        phone: foundUser.phone,
+        profilePicture: null, // Mulai tanpa gambar profil
       };
       
       setUser(userToSave); 
       localStorage.setItem('user', JSON.stringify(userToSave));
-      localStorage.setItem('justLoggedIn', 'true');
+      localStorage.setItem('justLoggedIn', 'true'); // Tandai bahwa pengguna baru saja login
       navigate('/'); 
       
       return true;
@@ -51,16 +56,16 @@ export const AuthProvider = ({ children }) => {
     navigate('/login'); 
   };
   
-  // --- NEW FUNCTION TO UPDATE USER PROFILE ---
+  // --- FUNGSI UNTUK MEMPERBARUI PROFIL PENGGUNA ---
   const updateUser = (newUserData) => {
-    // Merge previous user data with new data
+    // Gabungkan data pengguna sebelumnya dengan data baru
     const updatedUser = { ...user, ...newUserData };
     setUser(updatedUser);
     localStorage.setItem('user', JSON.stringify(updatedUser));
   };
   
   // Nilai yang akan disediakan untuk komponen lain
-  const value = { user, login, logout, updateUser }; // <-- EXPOSE updateUser HERE
+  const value = { user, login, logout, updateUser };
 
   return (
     <AuthContext.Provider value={value}>

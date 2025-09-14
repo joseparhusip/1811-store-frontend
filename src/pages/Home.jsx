@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import '../css/Home.css';
 import AdPopup from '../components/common/AdPopup';
 import { useLanguage } from '../context/LanguageContext';
+import { useAuth } from '../context/AuthContext'; // --- Impor useAuth ---
 
 // --- Impor komponen LoadingSpinner ---
 import LoadingSpinner from '../components/common/LoadingSpinner';
@@ -28,6 +29,7 @@ const formatPrice = (price) => {
 
 const Home = () => {
   const { t } = useLanguage();
+  const { user } = useAuth(); // --- Dapatkan data pengguna dari context ---
   
   // --- State untuk mengelola status loading ---
   const [isLoading, setIsLoading] = useState(true);
@@ -40,15 +42,11 @@ const Home = () => {
 
   // --- useEffect untuk simulasi proses loading ---
   useEffect(() => {
-    // Timer ini mensimulasikan pengambilan data dari server.
-    // Durasi 2500ms (2.5 detik) untuk halaman utama.
     const loadingTimer = setTimeout(() => {
       setIsLoading(false);
     }, 2500);
-
-    // Cleanup function untuk membersihkan timer
     return () => clearTimeout(loadingTimer);
-  }, []); // Array dependensi kosong agar useEffect hanya berjalan sekali
+  }, []);
 
   // --- useEffect untuk memeriksa status login dan menampilkan notifikasi ---
   useEffect(() => {
@@ -113,10 +111,10 @@ const Home = () => {
       {/* Render komponen pop-up */}
       <AdPopup isVisible={isPopupVisible} onClose={handleClosePopup} />
 
-      {/* Tampilkan notifikasi jika state true */}
-      {showLoginSuccess && (
+      {/* --- PERUBAHAN: Tampilkan notifikasi dengan nama pengguna --- */}
+      {showLoginSuccess && user && (
         <div className="login-success-notification">
-          {t('auth.loginSuccess')}
+          {t('auth.loginSuccess')}, {user.name}!
         </div>
       )}
 
